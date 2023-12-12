@@ -1,5 +1,5 @@
 \documentclass[]{article}
-\usepackage{amssymb,amsmath}
+\usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage[bitstream-charter]{mathdesign}
 \usepackage[T1]{fontenc}
@@ -49,5 +49,38 @@
 \author{Kexing Ying}
 \maketitle
 
+This notes is based on \textit{Multidimensional Stochastic Processes as Rough Paths: Theory and Applications} 
+by Peter Friz and Nicolas Victoir. 
+
+\subsection*{Basics}
+
+Take \((E, d)\) to be a complete metric space.
+
+\begin{definition}
+  A map \(\omega : \Delta_T \to [0, \infty)\) is a control 
+  (denoting \(\Delta = \Delta_T = \{(s, t) \in [0, T]^2 : 0 \le s \le t \le T\}\)) if it is
+  \begin{itemize}
+    \item super-additive: \(\omega(s, t) + \omega(t, u) \le \omega(s, u)\) for all \(s \le t \le u\) in \([0, T]\)
+    \item zero on the diagonal: \(\omega(s, s) = 0\) for all \(s \in [0, T]\).
+  \end{itemize}
+\end{definition}
+
+Given \(x \in C^{1-var}([0, T], E)\), we say it is dominated by a control \(\omega\) if for all 
+\(s < t\), \(d(x_s, x_t) \lesssim \omega(s, t)\). In particular, if \(x\) is dominated by \(\omega\), 
+then \(\|x\|_{1-var; [s, t]} \le C\omega(s, t)\) for some constant \(C\). Moreover, the map 
+\[(s, t) \mapsto \|x\|_{1-var; [s, t]}\]
+is a (additive) control dominating \(x\). Denote this control by \(\omega_x\).
+
+Denote \(C^{0, 1-var}([0, T], \mathbb{R}^d) = \overline{C^\infty([0, T], \mathbb{R}^d)}\) where the 
+closure is taken with respect to the \(C^{1-var}\) norm. It is a Banach space and moreover, 
+\[C^{0, 1-var}([0, T], \mathbb{R}^d) = \{x : [0, T] \to \mathbb{R}^d \text{ absolutely continuous}\}.\] 
+
+\subsection*{Young integration}
+
+In stochastic calculus, we defined the Ito integral in which we are allowed to integrate with respect 
+martingales, for which the construction relied on the fact that martingales has a quadratic variation
+process. The Young integral generalizes this by allowing us to construct an integral of the form 
+\(\int_0^\cdot y \dd x\) for \(x \in C^{p-var}([0, T], \mathbb{R}^d)\) and 
+\(y \in C^{q-var}([0, T], L(\mathbb{R}^d, \mathbb{R}^e))\) where \(1 / p + 1 / q > 1\).
 
 \end{document}
