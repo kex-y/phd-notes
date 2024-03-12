@@ -1,0 +1,235 @@
+\documentclass[]{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[T1]{fontenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Multiscale notes},
+  pdfauthor={Kexing Ying},
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Maroon,
+  urlcolor=Maroon,
+  pdfcreator={LaTeX via pandoc}}
+\usepackage{xcolor}
+\usepackage[margin = 1.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{physics}
+\usepackage{amsthm}
+\usepackage{titling}
+\usepackage{mathtools}
+\usepackage{authblk}
+\usepackage{todonotes}
+\setlength{\parindent}{0pt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}{Assumption}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{example}{Example}[section]
+
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+\let\phi\varphi
+
+\setlength{\parskip}{3pt}
+
+\begin{document}
+\title{Multiscale notes}
+\author{Kexing Ying}
+\maketitle
+
+This note is based on the lectures given by Prof. Xue-Mei Li at EPFL during the spring term of 2024. 
+
+\subsection*{Preliminaries}
+
+Let \(T > 0\) and suppose \(f : [0, T] \to \mathbb{R}^d\) is an \(\alpha\)-H\"older 
+continuous function for some \(\alpha\). Then, defining \(\hat f : [0, T] \to \mathbb{R}^d\) by 
+\(\hat f(t) = \int_0^t f(r) \dd r\), we observe that
+\[\|\hat f(t) - \hat f(s) - f(s)|t - s|\| = \left\|\int_s^t (f(r) - f(s)) \dd r\right\| \le \|f\|_{\alpha}|t - s|^{1 + \alpha}\]
+for all \(s, t \in [0, T]\). Thus, we have that 
+\begin{equation}\label{eq:hatfholder}
+  \frac{\|\hat f(t) - \hat f(s)\|}{|t - s|^{1 + \alpha}} \le \|f\|_{\alpha} + \frac{\|f(s)\|}{|t - s|^{\alpha}}
+\end{equation}
+Hence, if \(\alpha\) is somehow negative, the second term in the above equation vanishes as \(|t - s| \to 0\) 
+and this motivates the following definition for functions with negative H\"older continuity.
+
+\begin{definition}
+  For \(f : [0, T] \to \mathbb{R}^d\) and \(\kappa \in (0, 1)\), we define 
+  \[\|f\|_{-\kappa} = \sup_{s \neq t \in [0, T]} \frac{1}{|t - s|^{1 - \kappa}} \int_s^t f(r) \dd r.\]
+  We denote \(C^{-\kappa} = \{f : [0, T] \to \mathbb{R}^d : \|f\|_{-\kappa} < \infty\}.\)
+\end{definition}
+
+We observe that, denoting \(\hat f(t) = \int_0^t f(r) \dd r\) as above, 
+\(\|f\|_{- \kappa} = \|\hat f\|_{1 - \kappa}\).
+
+\begin{definition}
+  For \(f : \mathbb{R}^d \times [0, T] \to \mathbb{R}^d\) and \(\kappa, \gamma \in (0, 1)\), we define 
+  \[\|f\|_{-\kappa, \gamma} = \sup_{x \neq y \in \mathbb{R}^d} \frac{\|f(x, \cdot) - f(y, \cdot)\|_{-\kappa}}{\|x - y\|^\gamma}.\]
+  Moreover, denote \(C_{- \kappa, \gamma} = \{f : \mathbb{R}^d \times [0, T] \to \mathbb{R}^d : \|f\|_{-\kappa, \gamma} < \infty\}\).
+\end{definition}
+
+\begin{theorem}[Multidimensional Kolmogorov's continuity criterion]
+  Let \((X_t)_{t \in [0, 1]^d}\) be a stochastic process with values in \(\mathbb{R}^d\) and suppose 
+  there exists \(\alpha, C > 0\) such that for all \(s \neq t \in [0, 1]^d\),
+  \[\|X_t - X_s\|_p \le C \|t - s\|^\alpha.\]
+  Then, for all \(\gamma < \alpha - \frac{d}{p}\), there exists a continuous modification of \((X_t)_{t \in [0, 1]^d}\)
+  such that 
+  \[\left\|\sup_{s \neq t \in [0, 1]^d} \frac{\|X_t - X_s\|}{\|t - s\|^\gamma}\right\|_p 
+    = \|\|X\|_\gamma\|_p \le C \tilde C\]
+  where \(\tilde C = \sum_{m \in \mathbb{N}} 2^{m(\gamma p - \alpha p + d)}\).
+\end{theorem}
+
+\begin{theorem}[Sewing Lemma]
+  Let \(W\) be a Banach space and for any two parameter process \(A : [0, T]^2_\le \to W\), defining 
+  \(\delta A_{s, u, t} = A_{s, t} - A_{s, u} - A_{u, t}\), we denote 
+  \[\|A\|_\eta = \sup_{s < t \in [0, T]} \frac{\|A_{s, t}\|}{|t - s|^\eta} 
+    \text{ and } 
+    \|\delta A\|_{\bar \eta} = \sup_{s < u < t \in [0, T]} \frac{\|\delta A_{s, u, t}\|}{|t - s|^{\bar \eta}}\]
+  for some \(\eta, \bar \eta> 0\). Then, we take 
+  \[C^{\eta, \bar \eta}([0, T], W) = \{A : [0, T]^2_\le \to W : \|A\|_\eta < \infty, \|\delta A\|_{\bar \eta} < \infty\}.\]
+  For \(\eta > 0\) and \(\bar \eta > 1\), there exists a unique linear map 
+  \[I : C^{\eta, \bar \eta}([0, T], W) \to C^\eta([0, T], W)\]
+  such that \(I(A)_0 = 0\) and for all \(s < t \in [0, T]\),
+  \[\|\underbrace{I(A)_t - I(A)_s}_{=: I(A)_{s, t}} - A_{s, t}\| \le C |t - s|^{\bar \eta} \|\delta A\|_{\bar \eta}.\]
+  Moreover, for any partition \(\mathcal{P}\) of the interval \([s, t] \subseteq [0, T]\), we have that 
+  \[\left\|I(A)_{s, t} - \sum_{[u, v] \in \mathcal{P}} A_{u, v}\right\| 
+    \le C|t - s| \|\delta A\|_{\bar \eta} |\mathcal{P}|^{\bar \eta - 1}.\]
+\end{theorem}
+
+\begin{theorem}[Young integral]
+  Let \(f \in C^\alpha\), \(g \in C^\beta\) such that \(\alpha + \beta > 1\). Then, defining \(A_{s, t} = f_s g_{s, t}\), 
+  the sewing lemma applies and we denote the resulting map by 
+  \[\int_s^t f_r \dd g_r := I(A)_{s, t}.\]
+\end{theorem}
+
+The sewing lemma provides the following bounded which we will use frequently in the next section.
+
+\begin{lemma}
+  Let \(\alpha, \kappa, \gamma \in (0, 1)\) such that \(\alpha \gamma > \kappa\). Then, there exists a continuous 
+  linear map 
+  \[\Phi : C_{- \kappa, \gamma} \times C^\alpha([0, T], \mathbb{R}^d) \to C^{-\kappa}([0, T], \mathbb{R}^d)
+    : (f, x) \mapsto (t \mapsto f(t, x_t)).\]
+  Moreover, \(\|\Phi(f, x)\|_{- \kappa} \lesssim \|f\|_{-\kappa, \gamma}(1 + \|x\|_\alpha^\gamma T^{\alpha \gamma})\).
+\end{lemma}
+\begin{proof}
+  In order to show \(\Phi(f, x) \in C^{-\kappa}\), we need to show that \(\int_0^{\cdot} f(r, x_r) \dd r \in C^{1 - \kappa}\)
+  to which one simply applies the sewing lemma to \(A_{s, t} = \int_s^t f(r, x_s) \dd r\).
+\end{proof}
+
+\begin{definition}
+  For two random variables \(X, Y\), we define their degree of mixing coefficient to be 
+  \[\alpha(X, Y) = \sup_{A \in \sigma(X), B \in \sigma(Y)}|\mathbb{P}(A \cap B) - \mathbb{P}(A)\mathbb{P}(B)|.\]
+\end{definition}
+
+We see straightaway that two independent random variables have mixing coefficient 0 and so intuitively, 
+the mixing coefficient describes how close two random variables are to being independent. Moreover, we 
+recall that in setting of measure preserving systems, the m.p.s. \((X, \mathcal{A}, \mu, T)\) is said to be 
+strong mixing if for all \(A, B \in \mathcal{A}\), 
+\[\lim_{n \to \infty}|\mu(T^{-n}A \cap B) - \mu(A)\mu(B)| = 0.\]
+Hence, the m.p.s. is strong mixing if and only if \(\alpha(T^0, T^n) \to 0\) as \(n \to \infty\).
+
+\begin{proposition}
+  Let \(X, Y\) be two random variables. Then, 
+  \[4 \alpha(X, Y) = \sup_{\|F\|_\infty, \|G\|_\infty \le 1} |\mathbb{E}[F(X) G(Y)] - \mathbb{E}[F(X)]\mathbb{E}[G(Y)]|.\]
+\end{proposition}
+
+\begin{proposition}
+  If there exists some \(\delta > 0\) such that \(\|X\|_{2 + \delta}, \|Y\|_{2 + \delta} \le c\), then
+  \[\text{Cov}(X, Y) \le 8c^{\frac{2}{2 + \delta}} (\alpha(X, Y))^{\frac{2}{2 + \delta}}.\]
+\end{proposition}
+
+\subsection*{Multiscale analysis}
+
+We mainly consider the following two standing assumptions.
+
+\begin{assumption}\label{as:1}
+  Let \((y_t)\) be a stationary process taking value in \(Y\) such that \(\alpha(y_0, y_t) \lesssim t^{- \delta}\) 
+  for some \(\delta \in (0, 1)\). We denote \(\mu = \mathcal{L}(y_0)\) the stationary measure of the process.
+\end{assumption}
+
+\begin{assumption}\label{as:2}
+  Let \(F : \mathbb{R}^d \times Y \to \mathbb{R}\) be uniformly (in both arguments) bounded and Lipschitz 
+  in \(\mathbb{R}^d\) (with Lipschitz constant uniform over \(Y\)).
+\end{assumption}
+
+\begin{lemma}
+  Assuming Assumption~\ref{as:1} and let \(F : \mathbb{R}^d \times Y \to \mathbb{R}\) be a bounded 
+  measurable function in \(Y\) and define 
+  \[f_n(x, r) = F(x, y_{nr}) \text{ and } \bar f(x) = \int_Y F(x, y) \mu(\dd y).\]
+  Then, for all \(p \ge 2\) and \(x \in \mathbb{R}^d\), we have that 
+  \[\left\|\int_s^t f_n(x, r) - \bar f(x)(t - s)\right\|_p \lesssim 
+    \|F(x, \cdot)\|_\infty n^{-\frac{\delta}{p}}|t - s|^{1 - \frac{\delta}{p}}\]
+\end{lemma}
+\begin{proof}
+  As fundamentally \(x\) plays no role in the above statement, we will omit it from our notations. 
+  Moreover, by scaling and translating, we may assume without loss of generality that \(\bar f = 0\) 
+  and \(s = 0\). Then, we observe 
+  \begin{align*}
+    \mathbb{E}\left[\left(\int_0^t f_n(r) \dd r\right)^2\right] 
+    & = \int_0^t \int_0^t \mathbb{E}[f_n(r) f_n(s)] \dd r \dd s\\
+    & \le 4 \|F\|_\infty \int_0^t \int_0^t \alpha(y_{nr}, y_{ns}) \dd r \dd s
+      \le 4 \|F\|_\infty n^\delta t^{2 - \delta}.
+  \end{align*}
+  Hence, for all \(p \ge 2\), we have that 
+  \[\mathbb{E}\left[\left(\int_0^t f_n(r) \dd r\right)^p\right] 
+    \le t^{p - 2} \|F\|_\infty^{p - 2} \mathbb{E}\left[\left(\int_0^t f_n(r) \dd r\right)^2\right]
+    \lesssim \|F\|_\infty^p n^\delta t^{p - \delta}.\]
+\end{proof}
+
+\begin{lemma}
+  Assuming now Assumption~\ref{as:1} and \ref{as:2} and denote \(f\) and \(\bar f\) as in the previous 
+  lemma. Then, for all \(p \ge 2\) and \(x, z \in \mathbb{R}^d\), we have that
+  \[\left\|\int_s^t (f_n(x, r) - f_n(z, r)) - (\bar f(x) - \bar f(z)) \dd r\right\|_p 
+    \lesssim n^{-\frac{\delta}{p}} |t - s|^{1 - \frac{\delta}{p}} \|x - z\|.\]
+\end{lemma}
+\begin{proof}
+  Fixing \(z \in \mathbb{R}^d\) and defining \(\bar F(x, y) = F(x, y) - F(z, y)\), the bound follows 
+  by observing that \(\|\bar F(x, \cdot)\|_\infty = \|F(x, \cdot) - F(z, \cdot)\|_\infty \le \|F\|_1 \|x - z\|\).
+\end{proof}
+
+\begin{lemma}
+  Let \(F : \mathbb{R}^d \to \mathbb{R}^d\) be bounded and Lipschitz and suppose 
+  \(G, \tilde G \in C^\alpha([0, T], \mathbb{R}^d)\) for some \(\alpha \in (0, 1)\) with \(G_0 = \tilde G_0\). 
+  Then, if 
+  \[z_t = G_t + \int_0^t F(z_s) \dd s \text{ and } \tilde z_t = \tilde G_t + \int_0^t F(\tilde z_s) \dd s,\]
+  we have that 
+  \[\|z - \tilde z\|_\alpha \lesssim_{\|F\|_\infty}\|G - \tilde G\|_\alpha.\]
+\end{lemma}
+\begin{proof}
+  It is easy to see from Gr\"onwall's inequality that 
+  \[\|z - \tilde z\|_\infty \le \|G - \tilde G\|_\infty \exp(\|F\|_1 T).\]
+  On the other hand, since for any \(t \in [0, T]\), we have that
+  \[\|G_t - \tilde G_t\| \le \|(G_t - \tilde G_t) - (G_0 - \tilde G_0)\| \le \|G - \tilde G\|_\alpha T^\alpha,\]
+  so, \(\|G - \tilde G\|_\infty \le \|G - \tilde G\|_\alpha T^\alpha\). Hence, combining the two estimates provides 
+  the desired bound.
+\end{proof}
+
+\begin{lemma}
+  Let \(f_n, f : \mathbb{R}^+ \times \mathbb{R}^d \to \mathbb{R}^d\) be functions in \(C_{-\kappa, \gamma}\)
+  such that the ODEs 
+  \[x^n_t = x_0 + \int_0^t f_n(s, x_s^n) \dd s, x_t = x_0 + \int_0^t f(s, x_s) \dd s\]
+  have unique solutions \(x^n, x \in C^\alpha\) for some \(\alpha + \gamma \le 1\) and \(\alpha \gamma > \kappa\).
+  Then, if \(\|f_n - f\|_{-\kappa, \gamma} \to 0\) as \(n \to \infty\), we have that 
+  \(\|x^n - x\|_\alpha \to 0\).
+\end{lemma}
+\begin{proof}
+  Follows by applying the previous lemma in which we take 
+  \[G_t = x_0 + \int_0^t (f_n(s, x_s^n) - f(s, x_s^n)) \dd s.\]
+\end{proof}
+
+\end{document}
