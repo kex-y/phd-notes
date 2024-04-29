@@ -1,0 +1,371 @@
+\documentclass[]{article}
+\usepackage{amssymb,amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[T1]{fontenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Notes on L\'evy processes},
+  pdfauthor={Kexing Ying},
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Maroon,
+  urlcolor=Maroon,
+  pdfcreator={LaTeX via pandoc}}
+\usepackage{xcolor}
+\usepackage[margin = 1.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\setlength{\parindent}{0pt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{definition*}{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{example}{Example}[section]
+
+\setlength{\parskip}{3pt}
+
+\title{Notes on L\'evy processes\\
+  \large Based on: \href{link.springer.com/content/pdf/10.1007/978-1-4612-2054-1}{link.springer.com/content/pdf/10.1007/978-1-4612-2054-1}}
+\author{Kexing Ying}
+
+\begin{document}
+
+\maketitle
+
+An \(\mathbb{R}^d\)-valued stochastic process \((Z_t)_{t \in [0, T]}\) is said to be a L\'evy process 
+if 
+\begin{enumerate}
+  \item it has independent increments, i.e. for all \(0 = t_0 < t_1 < t_2 < \cdots < t_n \leq T\), the 
+    random variables \((Z_{t_{i + 1}} - Z_{t_i})_{i = 0}^{n - 1}\) are independent;
+  \item it has stationary increments, i.e. for all \(0 \leq s < t \leq T\) and \(h > 0\), we have 
+    \[Z_{t + h} - Z_{s + h} \sim Z_t - Z_h;\]
+  \item it is continuous in probability, i.e. for all \(\epsilon > 0\) and \(t \in [0, T]\), we have 
+    \[\lim_{h \to 0} \mathbb{P}(\abs{Z_{t + h} - Z_t} > \epsilon) = 0.\]
+\end{enumerate}
+
+It is easy to see that, if \((Z_t)\) is an \(L^1\)-L\'evy process is such that \(\mathbb{E}[Z_t] = mt\), 
+then \(M_t := Z_t - mt\) is a martingale with respect to its natural filtration. Moreover, if \((Z_t)\) is  
+an \(L^2\)-L\'evy process such that \(\mathbb{E}[Z_T^{\otimes 2}] = Vt = (v_{ij}) t\), then \((M_t)\) is a 
+square-integrable martingale such that \(\langle M^i, M^j\rangle_t = v_{ij}t\). 
+
+Generally, it turns out that any L\'evy process is a semimartingale and all continuous L\'evy processes 
+are Gaussian processes. Thus, combining with the L\'evy characterisation of the Brownian motion, we have 
+that a continuous \(L^2\)-L\'evy process is automatically a Brownian motion if \(v_{ij} = \delta_{ij}\).
+In contrast to the typical definition of Brownian motion, we note that in Kunita, any continuous 
+L\'evy process is a called a Brownian motion.
+
+We take a long detour here to discuss the theory of the Poisson random measure.
+
+Let \((\mathcal{Z}, \mathcal{B})\) be a measurable space and \(\mu\) a \(\sigma\)-finite measure on \(\mathcal{Z}\).
+From AP, we defined a Poisson random measure \(N\) with intensity \(\mu\) as a random variable taking values in the space of 
+counting measures on \(\mathcal{Z}\) such that for all disjoint \((A_i)_{i = 1}^\infty \subseteq \mathcal{B}\), 
+we have that \(N(A_i)\) are \textit{independent} Poisson random variables with intensity \(\mu(A_i)\). 
+Recall that this means that, for all \(k \in \mathbb{N}\),
+\[\mathbb{P}(N(A_i) = k) = e^{-\mu(A_i)} \frac{(\mu(A_i))^k}{k!}.\]
+We observe that this definition automatically requires that
+\[\sum_{i = 1}^\infty N(A_i) = N\left(\bigcup_{i = 1}^\infty A_i\right) \sim 
+  \text{Poi}\left(\mu\left(\bigcup_{i = 1}^\infty A_i\right)\right) = 
+  \text{Poi}\left(\sum_{i = 1}^\infty \mu(A_i)\right)\]
+which is the additive property of the Poisson law.
+
+Kunita's definition for the Poisson random measure is a more explicit as he defines it as the induced random 
+measure of a Poisson point process. 
+\begin{itemize}
+  \item Let \(\mathbb{D}_p \subseteq (0, T]\) be a countable set and \(p : \mathbb{D}_p \to \mathcal{Z}\).
+    Define the measure \(N_p\) on \([0, T] \times \mathcal{Z}\) such that  
+    \[N_p((s, t] \times U) = \abs{\{r \in (s, t] \cap \mathbb{D}_p : p(r) \in U\}}\]
+    for all \(s < t \in [0, T]\) and \(U \in \mathcal{B}\).
+  \item A Poisson point process \(p\) is a random variable taking values in the space of functions 
+    \(\mathbb{D}_p \to \mathcal{Z}\) such that for any \(E_1, \dots, E_n \in \mathcal{B}\) such that 
+    for almost every \(\omega\), \(N_{p(\omega)}((0, T] \times E_i) < \infty\) for all \(i = 1, \dots, n\), 
+    defining 
+    \[X_t = (N_p((0, t], E_i))_{i = 1}^n,\]
+    \((X_t)_{t \in [0, T]}\) is a \(n\)-dimensional L\'evy process (note that it is automatically a pure jump process).
+  \item The random measure induced by a Poisson point process \(p\): \(\omega \mapsto N_{p(\omega)}\) 
+    is called a Poisson random measure.
+\end{itemize}
+
+One can show that a Poisson random measure in the Kunita sense is a Poisson random measure in the AP sense 
+with intensity \(\mu(A) = \mathbb{E}[N_p((0, 1] \times A)] =: \mathbb{E}[N_1(A)]\). We sketch the proof 
+for \(N_t(A) \sim \text{Poi}(t\mu(A))\):
+
+It suffices to show that the characteristic function of \(N_t(A)\) is \(\phi_t(\alpha) = \exp((e^{i\alpha} - 1)t\mu(A))\).
+Since \(N_t(A)\) is a L\'evy process, in particular, it is stationary and infinitely divisible 
+(\(N_t(A) = \sum_{k = 0}^{n - 1} (N_{\frac{k + 1}{n}t}(A) - N_{\frac{k}{n}t}(A))\)), 
+we have by the L\'evy-Khintchine formula that \(\phi_t(\alpha) = e^{t\psi(\alpha)}\) for some function \(\psi\). Thus, defining 
+\[M_t^\alpha = \exp(i\alpha N_t(A) - t \psi(\alpha)),\]
+we observe \(M_t^\alpha (M_s^\alpha)^{-1} \perp \mathcal{F}_s\) for all \(s < t\) and so, \(M_t^\alpha\) is a martingale.
+Hence, defining 
+\[Y_t^\alpha = \int_0^t \frac{1}{M_{s-}^\alpha} \dd M_s^\alpha,\]
+we have by the It\^o formula applied to \(\log(M_t^\alpha)\) that
+\[Y_t^\alpha = (e^{i\alpha} - 1)N_t(A) - t\psi(\alpha)\]
+(this step requires us to observe that 
+\(\sum_{s \le t} (e^{i\alpha \Delta X_s} - 1) = (e^{i\alpha} - 1)N_t(A)\)). 
+Consequently, taking expectations, we have that 
+\(\mu(A) = \mathbb{E}[N_1(A)] = -\frac{\psi(\pi)}{2}\) which implies that 
+\[\mathbb{E}[N_t(A)] = -\frac{\psi(\pi)}{2} = t \mu(A),\]
+and moreover, 
+\[\psi(\alpha) = (e^{i\alpha} - 1)\mu(A).\]
+Thus, \(\phi_t(\alpha) = \exp((e^{i\alpha} - 1)t\mu(A))\) as required.
+
+Taking \(\mu(A) = \mathbb{E}[N_1(A)]\) as above, we define 
+\[\hat N(\dd t \dd z) = \dd t \mu(\dd z) \text{ and } 
+  \tilde N(\dd t \dd z) = N(\dd t \dd z) - \dd t \mu(\dd z) = N(\dd t \dd z) - \hat N(\dd t \dd z).\]
+We call \(\tilde N\) the compensated Poisson random measure and \(\hat N\) the compensator of 
+the Poisson random measure of \(N\).
+
+Similarly defining \(\tilde N_t(A) = \tilde N((0, t] \times A)\), since \(\mathbb{E}[N_t(A)] = t\mu(A)\),
+we have by the previous remarks that \(\tilde N_t(A)\) is a square integrable martingale. Moreover, 
+\(\langle \tilde N(A)\rangle_t = t \mu(A)\). 
+
+We would now like to integrate with respect to the Poisson random measure. To this end, we define 
+integration with respect to the compensated Poisson random measure \(\tilde N\) while integration 
+with respect to the compensator \(\hat N\) is classical as it is a deterministic measure.
+
+We make the following observation: Let \(t \in (0, T]\) and \(A, B \in \mathcal{B}\). Then, as 
+disjoint sets evaluated under \(\tilde N_t\) are independent, we have that 
+\begin{align*}
+  \mathbb{E}[\tilde N_t(A) \tilde N_t(B)] 
+  & = \mathbb{E}[(\tilde N_t(A \cap B))^2] 
+    + \overbrace{\mathbb{E}[\tilde N_t(A \setminus B)]\mathbb{E}[\tilde N_t(B)]}^{= 0}
+    + \overbrace{\mathbb{E}[\tilde N_t(A \cap B)]\mathbb{E}[\tilde N_t(B \setminus A)]}^{= 0}\\
+  & = \mathbb{E}[(N_t(A \cap B) - t\mu(A \cap B))^2]\\
+  & = t\mu(A \cap B)
+\end{align*}
+where the last equality follows as \(N_t(A \cap B) \sim \text{Poi}(t\mu(A \cap B))\) and so, 
+\(\mathbb{E}[(N_t(A \cap B))^2] = t\mu(A \cap B) + t^2 \mu(A \cap B)^2\). Consequently, as 
+\(\tilde N_{s, t}\) is independent of \(\mathcal{F}_s\)
+\[\mathbb{E}[\tilde N_{s, t}(A) \tilde N_{s, t}(B) \mid \mathcal{F}_s] = 
+  \mathbb{E}[\tilde N_t(A) \tilde N_t(B)] - \mathbb{E}[\tilde N_s(A) \tilde N_s(B)]
+  = (t - s)\mu(A \cap B).\]
+Thus, we have that 
+\[\langle \tilde N(A), \tilde N(B)\rangle_t = t \mu(A \cap B)\]
+and we have the It\^o isometry for the compensated Poisson random measure:
+\[\mathbb{E}\left[\left(\int \psi(z) \tilde N_{s, t}(\dd z)\right)^2\right] 
+  = (t - s) \int \psi(z)^2 \mu(\dd z)\]
+for any \(\mathcal{F}_s\) measurable function \(\psi\) such that \(\int \abs{\psi}^2 \dd\mu < \infty\).
+
+As the notation \(\tilde N(\dd t \dd z)\) suggest, we would also like to integrate with respect to time.
+To this end, we first define the stochastic integral with respect to the Poisson random measure for 
+simple functions of the form 
+\[g(t, z) = \sum_{i = 1}^n \psi_i(z) \mathbb{1}_{(t_i, t_{i + 1}]}(t)\]
+where \(\psi_i\) is a random variable measurable with respect to \(\mathcal{F}_{s_i} \times \mathcal{B}\). We define
+\[\int g(t, z) \tilde N_{\dd t}(\dd z) = \sum_{i = 1}^n \int \psi(z) \tilde N_{t_i, t_{i + 1}}(\dd z).\]
+
+We have the following It\^o type isometry for the stochastic integral with respect to the compensated 
+Poisson random measure:
+\[\left\langle \int g(t, z) \tilde N_{\dd t}(\dd z) \right\rangle_t 
+  = \int g(t, z)^2 \hat N_{\dd t}(\dd z) = \int g(t, z)^2 \dd t \mu(\dd z)\]
+and 
+\[\mathbb{E}\left[\abs{\int g(t, z) \tilde N_{\dd t}(\dd z)}^2\right] 
+  = \mathbb{E}\left[\int g(t, z)^2 \hat N_{\dd t}{\dd z}\right]
+  = \mathbb{E}\left[\int g(t, z)^2 \dd t \mu(\dd z)\right].\]
+With this, denoting \(L^2(\hat N)\) for the set of all predictable random functionals 
+\(g : [0, T] \times \mathcal{Z} \times \Omega \to \mathbb{R}\), i.e. \(g\) is measurable with respect to
+\(\mathcal{P} \times \mathcal{B}\) where \(\mathcal{P}\) is the predictable \(\sigma\)-algebra on \([0, T] \times \Omega\),
+which satisfy 
+\[\int g(t, z)^2 \hat N_{\dd t}(\dd z) = \int g(t, z)^2 \dd t \mu(\dd z) < \infty,\]
+as the set of simple functions is dense in \(L^2(\hat N)\), we have defined the stochastic integral 
+with respect to the compensated Poisson random measure for all \(g \in L^2(\hat N)\). We remark that 
+the stochastic integral with respect to the compensated Poisson random measure is a martingale in time.
+
+Finally, for any \(g \in L^2(\hat N)\), we define the stochastic integral with respect to the Poisson 
+random measure \(N\) as 
+\[\int g(t, z) N_{\dd t}(\dd z) = \int g(t, z) \tilde N_{\dd t}(\dd z) + \int g(t, z) \hat N_{\dd t}(\dd z).\]
+I think the above construction might work for any martingale random measures. However, as we used the 
+independent increments property a couple of times, the argument will be slightly different.
+
+We also have a version of the It\^o formula for this stochastic integral due to Kunita-Watanabe. I state 
+the one-dimensional result here:
+Let \(g, h \in L^2(\hat N)\) satisfy \(gh = 0\) (so that \(N_t(h)\) and \(\tilde N_t(g)\) do not jump 
+simultaneously) and take
+\[X_t = X_0 + \int_0^t \int_\mathcal{Z} g(s, z) \tilde N_{\dd s}(\dd z) + 
+    \int_0^t \int_\mathcal{Z} h(s, z) N_{\dd s}(\dd z).\]
+Then, for all \(F \in C^2\), we have that  
+\begin{align*}
+  F(X_t) & = F(X_0)\\ 
+  & + \int_0^t \int_\mathcal{Z} \left[F(X_{s-} + g(s, z)) - F(X_{s-})\right] N_{\dd s}(\dd z)\\
+  & + \int_0^t \int_\mathcal{Z} \left[F(X_{s} + h(s, z)) - F(X_{s-})\right] N_{\dd s}(\dd z)\\
+  & - \int_0^t \int_\mathcal{Z} g(s, z) F'(X_{s-}) \hat N_{\dd s}(\dd z)
+\end{align*}
+
+Going back to L\'evy processes, we have that for any \(A \in \mathcal{B}\), by definition \((N_t(A))\) 
+is a L\'evy process. On the other hand, starting from a L\'evy process \(Z_t\) on \(\mathbb{R}^n\), 
+we can define a Poisson random measure \(N\) by 
+\[N_{s, t}(A) = \abs{\{r \in (s, t] : \Delta Z_r \in A\}}\]
+for any \(A \in \mathcal{B}(\mathbb{R}^n \setminus \{0\})\). We remove \(0\) since \(\Delta Z\) is zero on 
+all but countably many points. We observe that, if for some \(\epsilon > 0\), 
+\(A \cap B_\epsilon(0) = \varnothing\), then as all by finitely many jumps of \(Z_t\) are in \(B_\epsilon(0)\), 
+we have that \(N_{s, t}(A) < \infty\). Consequently, we have that \(\mu(B_\epsilon^c) = \mathbb{E}[N_1(B_\epsilon^c)] < \infty\).
+
+This construction allows us to represent any L\'evy process using its corresponding Poisson random measure. 
+In particular, we have the \textit{unique} L\'evy-It\^o decomposition\footnote{Possible typo in Kunita: \(z\) is 
+replaced by an \(x\) in Kunita.}:
+\[Z_t = \sqrt{a}W_t + bt + \int_0^t \int_{B_1^c} z N_{\dd s}(\dd z) 
+  + \int_0^t\int_{B_1 \setminus \{0\}} z \tilde N_{\dd s}(\dd z)\]
+where \(W\) is a standard Brownian motion, \(N\) a Poisson random measure on \([0, T] \times \mathbb{R}^n \setminus \{0\}\) 
+with intensity \(\dd t\mu(\dd z)\) which is independent of \(W\). Moreover, \(\mu\) satisfies 
+\begin{equation}\label{eq:levy-measure}
+  \int \frac{|z|^2}{1 + |z|^2} \mu(\dd z) < \infty
+\end{equation}
+and we call it the L\'evy measure of \(Z\). We see that \(\frac{|z|^2}{1 + |z|^2} \ge \frac{1}{2}(1 \wedge |z|^2)\) 
+and so, Equation~\eqref{eq:levy-measure} implies that \(|z|\mathbb{1}_{B_1\setminus\{0\}} \in L^2(\hat N)\) which is 
+required to make sense of the integral \(\int_0^t \int_{B_1 \setminus \{0\}} z \tilde N_{\dd s}(\dd z)\).
+Thus, as \(\mu\) determines the Poisson random measure \(N\), 
+we have that the triplet \((a, b, \mu)\) uniquely determines the L\'evy process \(Z\) and we call it the 
+L\'evy triple of \(Z\).
+
+In the case where the norm of the jumps of \(Z_t\) are bounded below by some positive constant, we have that the 
+L\'evy measure is finite and the decomposition can be instead written as 
+\[Z_t = W_t + b't + \int_0^t \int_{\mathbb{R}^d \setminus \{0\}} z N_{\dd s}(\dd z).\]
+
+The proof of this is uses a similar idea to proving that \(N_t(A) \sim \text{Poi}(t\mu(A))\). However, before 
+sketching the proof, we first observe the following identity regarding integration with respect to a 
+Poisson random measure generated by the L\'evy process \(Z\). Denoting \(g \in L^2(\hat N)\), we have that
+\[\int_{(0, t]} \int_{\mathbb{R} \setminus \{0\}} g(s, z) N_{\dd s}(\dd z) = \sum_{s \le t} g(s, \Delta Z_s).\]
+To see this, one makes the heuristic observation that the measure \(N_t(\mathbb{R} \setminus \{0\})\) gains by 1 
+precisely if \(Z\) jumps at time \(t\). Thus, we have the informal formula that 
+\(N_{\delta t}(U) = \mathbb{1}_U(\Delta Z_t)\) which can be made rigorous by considering simple functions.
+With this in mind, denoting \(M_t^\alpha = \exp(i\alpha Z_t - t \psi(\alpha))\) and 
+\(Y_t^\alpha = \int_0^t \frac{1}{M_{s-}^\alpha} \dd M_s^\alpha\) as before, we find\footnote{Possible typo in Kunita: \(Z\) 
+is replaced by \(Y\) in Kunita.} 
+\[\Delta Y_t^\alpha = \frac{1}{M_{t-}^\alpha}\Delta M_t^\alpha = e^{i\alpha \Delta Z_t} - 1.\]
+Hence, denoting \(\tilde Y_t^\alpha\) for the pure jump part of \(Y_t^\alpha\) so that 
+\(\tilde Y_t^\alpha = \sum_{s \le t} \Delta Y_s^\alpha\) and \(\hat Y_t^\alpha = Y_t^\alpha - \tilde Y_t^\alpha\) 
+for the continuous part, we have that\footnote{I don't see how Kunita got \(\tilde N\) instead of \(N\) here.}
+\[\tilde Y_t^\alpha = \sum_{s \le t} (e^{i\alpha \Delta Z_t} - 1) 
+  = \int_{(0, t]} \int_{\mathbb{R}\setminus\{0\}} (e^{i\alpha z} - 1) N_{\dd s}(\dd z),\]
+and thus, as \(t \mapsto \int_{(0, t]} \int_{\mathbb{R}\setminus\{0\}} (e^{i\alpha z} - 1) \hat N_{\dd s}(\dd z)
+= t\mathbb{E}[\exp(i\alpha N_1(\mathbb{R} \setminus \{0\})) - 1]\) has finite variation, we have that 
+\[\infty > \langle \tilde Y^\alpha \rangle_t 
+  = \left\langle \int_{(0, \cdot]} \int_{\mathbb{R}\setminus\{0\}} (e^{i\alpha z} - 1) \tilde N_{\dd s}(\dd z)\right\rangle_t
+  = t\int_{\mathbb{R}\setminus\{0\}} \abs{e^{i\alpha z} - 1}^2 \mu(\dd z)\]
+which implies that \(\int \frac{|z|^2}{1 + |z|^2} \mu(\dd z) < \infty\). (?)
+
+Now to determine the shape of \(Z\), we observe that \(M\) satisfy the linear SDE 
+\[\dd M_t^\alpha = M_{t-}^\alpha \dd Y_t^\alpha.\]
+Thus, using the above decomposition, explicitly write out \(M_t^\alpha\) in terms of \(\hat Y_t^\alpha\) 
+and \(N, \tilde N\). 
+
+In general, if \((M_t)\) is a \(L^2\) martingale which is adapted to the natural filtration 
+\(\mathcal{F}^Z\) generated by a L\'evy process \(Z_t\), then we have the unique representation
+\[M_t = h + \int_0^t f(s) \dd W^i_s + \int_0^t \int_{\mathbb{R} \setminus \{0\}} g(s, z) \tilde N_{\dd s}(\dd z)\]
+with \(\int_0^T f^2(s) \dd s < \infty\) and \(g \in L^2(\hat N)\). This shows that the space of 
+martingales adapted to \(\mathcal{F}^Z\) can be decomposed into a direct sum \(\mathcal{M}_c \oplus \mathcal{M}_d\)
+where 
+\[\mathcal{M}_c = \left\{\int_0^t f(s) \dd W_s : \int_0^T f^2(s) v \dd s < \infty \right\}\]
+with \(v = \mathbb{E}[W^2_1]\) and
+\[\mathcal{M}_d = \left\{\int_0^t \int_{\mathbb{R} \setminus\{0\}} g(s, z) \tilde N_{\dd s}(\dd z) : g \in L^2(\hat N)\right\}.\]
+We remark that this sum is indeed a direct sum as the quadratic variation of the Brownian motion and 
+the Poisson random measure is zero since the latter is a process of finite variation. 
+
+We state a generalized BDG inequality for L\'evy processes: Let \(X\) be a semimartingale of the form 
+\[X_t = x + \int_0^t b(r) \dd r + \int_0^t f(r) \dd W_r + \int_0^t \int_\mathcal{Z} g(r, z) \tilde N_{\dd r}(\dd z).\]
+Then,
+\begin{align*}
+  \mathbb{E}\left[\sup_{s \le t} |X_s|^p\right] & \lesssim_p 
+    |x|^p + \mathbb{E}\left[\left(\int_0^t |b(r)| \dd r\right)^p\right] 
+    + \mathbb{E}\left[\left(\int_0^t |f(r)|^2| \dd r\right)^{p / 2}\right] \\
+    & + \mathbb{E}\left[\left(\int_0^t \int_\mathcal{Z} |g(r, z)|^2 \dd s\mu(\dd z)\right)^{p / 2}\right]
+      + \mathbb{E}\left[\int_0^t \int_\mathcal{Z} |g(r, z)|^p \dd s \mu(\dd z)\right].
+\end{align*}
+We remark that this coincides with the traditional BDG inequality when \(b, g = 0\).
+
+Applying the triangle inequality to \(\sup_{s \le t} |X_s|^p\), the inequality involving all but the last term 
+follows from the classical BDG inequality so, we will sketch the proof for the inequality only involving 
+the last term. Let \(Y_t = \int_0^t \int_\mathcal{Z} g(s, z) \tilde N_{\dd s}(\dd z)\), applying It\^o's formula 
+to \(|Y_t|^p\), we have that 
+\begin{equation}\label{eq:ito-normp}
+  |Y_t|^p = M_t + \int_0^t \int_\mathcal{Z} \left(|Y_{s-} + g|^p - |Y_{s-}| - p|Y_{s-}|^{p - 2} Y_{s-} g\right) \dd s \mu(\dd z)
+\end{equation}
+where 
+\[M_t = \int_0^t \int_\mathcal{Z} \left(|Y_{s-} + g|^p - |Y_{s-}|\right) \tilde N_{\dd s}(\dd z)\]
+is a (local) martingale.
+
+We observe that, by applying MVT twice, there exists some \(\theta \in (0, 1)\) such that 
+\[|Y_{s-} + g|^p - |Y_{s-}| - p|Y_{s-}|^{p - 2} Y_{s-} g = p(p - 1)|Y_{s-} + \theta g|^{p - 2}g^2.\]
+Hence, using the fact that \((a + b)^n \le 2^n(a^n + b^n)\), we have that 
+\[|Y_{s-} + g|^p - |Y_{s-}| - p|Y_{s-}|^{p - 2} Y_{s-} g \le c_3 |Y_{s-}|^{p - 2}g^2 + c_4|g|^p.\]
+Hence, taking expectations on both sides of Equation~\eqref{eq:ito-normp}, we have that
+\[\mathbb{E}[|Y_t|^p] \le c_3\mathbb{E}\left[\int_0^t \int_\mathcal{Z} |Y_{s-}|^{p - 2}g^2 \dd s \mu(\dd z)\right]
+ + c_4\mathbb{E}\left[\int_0^t \int_\mathcal{Z} |g|^p \dd s \mu(\dd z)\right].\]
+Applying H\"older's and Young's inequality to the first term provides 
+\[\mathbb{E}\left[\int_0^t \int_\mathcal{Z} |Y_{s-}|^{p - 2}g^2 \dd s \mu(\dd z)\right]
+  \le \left(1 - \frac{2}{p}\right)\mathbb{E}\left[\sup_{s \le t}|Y_{s-}|^p\right]
+  + \frac{2}{p}\mathbb{E}\left[\left(\int_0^t \int_\mathcal{Z} g^2 \dd s \mu(\dd z)\right)^{p / 2}\right].\]
+Thus, as \(Y\) is a martingale, by applying Doob's inequality while substituting the above inequalities, 
+we have 
+\begin{align*}
+  & \mathbb{E}\left[\sup_{s \le t}|Y_{s-}|^p\right] \\
+  & \le q^p\left(c_3'\mathbb{E}\left[\sup_{s \le t}|Y_{s-}|^p\right]
+    + c_3'' \mathbb{E}\left[\left(\int_0^t \int_\mathcal{Z} g^2 \dd s \mu(\dd z)\right)^{p / 2}\right]
+    + c_4\mathbb{E}\left[\int_0^t \int_\mathcal{Z} |g|^p \dd s \mu(\dd z)\right]\right)
+\end{align*}
+where we denote \(q\) for the H\"older conjugate of \(p\). At this point, Kunita shrinks \(c'_3\) so 
+that \(q^p c_3' < 1\) and moves the corresponding term to the left hand side to obtain the desired inequality.
+I'm not sure why we can shrink \(c_3'\) in this way as it seems to be fixed by the choice of \(p\).
+
+The above lemma allows us to conclude the following approximation for semimartingales of the form 
+\[X^x_t = a(x) + \int_0^t b(x, s) \dd s + \int_0^t f(x, s) \dd W_s + \int_0^t \int_\mathcal{Z} g(x, s, z) \tilde N_{\dd s}(\dd z),\]
+by semimartingales
+\[X^{n, x}_t = a^n(x) + \int_0^t b^n(x, s) \dd s + \int_0^t f^n(x, s) \dd W_s 
+  + \int_0^t \int_\mathcal{Z} g^n(x, s, z) \tilde N_{\dd s}(\dd z).\]
+In particular, if \(a^n\), \(b^n\) and \(f^n\) converges respectively to \(a\), \(b\) and \(f\) uniformly in time and 
+with respect to the \(p\)-th Lipschitz norm, and moreover 
+\[\lim_{n \to \infty} \sup_{s \le T} 
+  \left\|\left(\int_\mathcal{Z} |g^n(\cdot, s, z) - g(\cdot, s, z)|^{p'} \mu(\dd z)\right)^{1/ p'}\right\|_p = 0\]
+for \(p' = 2\) and \(p' = p > d\). Then, for any \(R > 0\), we have that 
+\[\lim_{n \to \infty} \mathbb{E}\left[\sup_{|x| \le R} \sup_{s \le T} |X_n(x, s) - X(x, s)|^p\right] = 0.\]
+The proof of this approximation is a straightforward application of Kolmogorov's continuity criterion 
+and the above BDG inequality.
+
+As a result of this approximation, by a standard Banach fixed point argument, Kunita then concludes 
+the existence of a unique solution to an SDE of the form 
+\[\dd x_t = b(t, x_t)\dd t + f(t, x_t) \dd W_t + \int_\mathcal{Z} g(t, x, z) \tilde N_{\dd t}(\dd z)\]
+where we assume linear growth and Lipschitz conditions on \(b, f\), and moreover, \(g\) satisfies 
+\[\frac{g(t, x, z)}{1 + |x|} \le K(z), |g(t, x, z) - g(t, y, z)| \le L(z) |x - y|\]
+where 
+\[\int_\mathcal{Z} (K(z)^p + L(z)^p) \mu(\dd z) < \infty\]
+for all \(p \ge 2\).
+
+Furthermore, under the same conditions, by the BDG inequality, we obtain continuity with respect to the 
+initial conditions via Kolmogorov's continuity criterion. 
+
+In the case where our SDE is not just driven by a \(\mathcal{F}^Z\)-martingale (recall the decomposition 
+of \(\mathcal{F}^Z\)-martingales into \(\mathcal{M}_c \oplus \mathcal{M}_d\)) but by \(Z\) itself, 
+the above result remains to hold. In particular, suppose we consider the SDE with additive L\'evy noise
+\begin{equation}\label{eq:levy-sde}
+  \dd x_t = b(t, x_t) \dd t + \dd Z_t
+\end{equation}
+where \(Z\) is a L\'evy process. Then, by the It\^o-L\'evy decomposition, we can write the above 
+SDE as
+\[\dd x_t = b(t, x_t) \dd t + \int_{B_1 \setminus\{0\}} z \tilde N_{\dd t}(\dd z) + \int_{B_1^c} z N_{\dd t}(\dd z)\]
+where \(\int_0^t \int_{B_1^c} z N_{\dd t}(\dd z) = \sum_{0 \le s \le t} \Delta Z_s \mathbb{1}_{B_1^c}(\Delta Z_s)\).
+Thus, assuming the growth and Lipchitz conditions, if \(\phi\) is the solution flow of the SDE 
+\begin{equation}\label{eq:levy-sde'}
+  \dd x_t = b(t, x_t) \dd t + \int_{B_1 \setminus\{0\}} z \tilde N_{\dd t}(\dd z)
+\end{equation}
+it is possible to construct the solution flow of Equation~\eqref{eq:levy-sde} from \(\phi\). In particular, 
+define the random times \((\sigma_n)_{n = 1}^\infty\) where \(\sigma_k\) denotes the \(k\)-th jump time 
+for \(Z\) where \(|Z_{\sigma_k}| \ge 1\). Then, fixing \(\omega \in \Omega\), we recursively define the 
+solution flow \(\psi\) so that for \(t \in [0, \sigma_1(\omega))\), \(\psi_t(x) = \phi_t(x)\) and for 
+\(t \in (\sigma_k(\omega), \sigma_{k + 1}(\omega)]\), we have 
+\[\psi_t(x) = \phi_{\sigma_k(\omega), t}(\psi_k(x) + \Delta Z_{\sigma_k(\omega)}).\]
+Thus, inductively, as each term is continuous in \(x\) almost surely, we have that \(\psi\) is continuous 
+in \(x\). With this argument in mind, it suffices to only consider SDEs of the form \eqref{eq:levy-sde'}.
+
+\end{document}
