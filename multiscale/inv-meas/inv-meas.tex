@@ -1,0 +1,156 @@
+\documentclass[]{article}
+% \usepackage{amssymb, amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[T1]{fontenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Invariant measure of SDEs},
+  pdfauthor={Kexing Ying},
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Maroon,
+  urlcolor=Maroon,
+  pdfcreator={LaTeX via pandoc}}
+\usepackage{xcolor}
+\usepackage[margin = 1.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\setlength{\parindent}{0pt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{definition*}{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{example}{Example}[section]
+
+\setlength{\parskip}{3pt}
+
+\title{Invariant measure of SDEs\\
+  \large Based on lectures given by Xue-Mei Li}
+\author{Kexing Ying}
+
+\begin{document}
+
+\maketitle
+
+\section*{Semigroup theory}
+
+Let \(X\) be a Banach space and let \(\{T_t : X \to X\}_{t \ge 0}\) be a family of bounded linear operators. We say 
+that \(\{T_t\}\) is a semigroup if \(T_{s + t} = T_s \circ T_t\) and \(T_0 = \text{id}\). If futhermore, 
+the map \((x, t) \mapsto T_t x\) is continuous, then we say \(\{T_t\}\) is a \(C_0\)-semigroup.
+
+\begin{lemma}
+  A semigroup \(\{T_t\}\) is \(C_0\) if and only if for any \(x \in X\), the map \(t \mapsto T_t x\) is continuous at 
+  \(0\) and there exists some constants \(M, a\) such that \(\|T_t\| \le Me^{at}\).
+\end{lemma}
+\begin{proof}
+  The forward direction is clear by decomposing \(\|T_t\| \le (\sup_{0 \le s \le 1}\|T_{s}\|) \|T_1\|^{\lfloor t \rfloor}\).
+
+  For the converse, we first realize that the map \(t \mapsto T_t x\) is continuous for any \(x \in X\). Indeed, 
+  for \(t, h > 0\), we have 
+  \[\|T_{t + h} x - T_t x\| = \|T_t(T_h x - x)\| \to 0\]
+  as \(h \downarrow 0\). Moreover, 
+  \[\|T_t x - T_{t - h} x\| = \|T_{t - h}(T_h x - x)\| \le Me^{(at \vee 0)} \|T_h x - x\| \to 0\]
+  as \(h \downarrow 0\). Thus, the map is continuous in \(t\) everywhere. With this in mind, it is easy 
+  to show that the semigroup is \(C_0\) by the triangle inequality.
+\end{proof}
+
+By the Banach-Steinhaus theorem, the condition \(\|T_t\| \le Me^{at}\) can be dropped.
+
+For a \(C_0\)-semigroup \(T\), we will be interested in its \textit{generator} defined as 
+\[\mathcal{L} : \mathcal{D}(\mathcal{L}) \subseteq X \to X : \mathcal{L}f = \lim_{t \downarrow 0} \frac{T_t f - f}{t}.\]
+Moreover, we define its adjoint as operator \(\mathcal{L}^*\) such that
+\[\mathcal{L}^* : \mathcal{D}(\mathcal{L}^*) \supseteq X^* \to X^* : \mathcal{L}^* l = l \circ L.\]
+This is well-defined as \(\mathcal{D}(\mathcal{L})\) is dense in \(X\).
+
+The resolvent of the generator is defined as 
+\[\rho(\mathcal{L}) = \{\lambda \in \mathcal{C} : (\lambda - \mathcal{L}) : \mathcal{D}(\mathcal{L}) \to X \text{ is invertible}\}.\]
+For each \(\lambda \in \rho(\mathcal{L})\), we define \(R_\lambda = (\lambda - \mathcal{L})^{-1}\).
+The spectrum of \(\mathcal{L}\) is \(\sigma(\mathcal{L}) = \rho(\mathcal{L})^c\). An important identity 
+for the resolvent is
+\[R_\lambda - R_\mu = (\mu - \lambda)R_\mu R_\lambda\]
+for any \(\lambda, \mu \in \rho(\mathcal{L})\).
+
+\begin{lemma}
+  \(\mathcal{D}(\mathcal{L})\) is dense in \(X\), invariant under \(T_t\) and 
+  \[\partial_t T_t x = \mathcal{L}T_t x = T_t \mathcal{L}x\]
+  for any \(x \in \mathcal{D}(\mathcal{L})\). 
+  Moreover, for any \(l \in \mathcal{D}(\mathcal{L}^*)\), we have that 
+  \[\partial_t \langle l, T_t x\rangle = \langle L^* l, T_t x\rangle.\]
+\end{lemma}
+\begin{proof}
+  Defining \(x_t = \int_0^t T_s x \dd s\) for any \(x \in X\), we have that \(\mathcal{L} x_t = T_t x - x\)
+  so \(x_t \in \mathcal{D}(\mathcal{L})\) and \(t^{-1} x_t \to x\) in \(X\) as \(t \downarrow 0\). 
+  For the second statement, integrate both side and write \(T_t x\) as \(\mathcal{L}x_t + x\)
+\end{proof}
+
+\begin{lemma}
+  Let \(T\) be a \(C_0\)-semigroup satisfying \(\|T_t\| \le Me^{at}\) and let \(\lambda \in \mathbb{C}\) 
+  be such that \(\text{Re}(\lambda) > a\). Then \(\lambda \in \rho(\mathcal{L})\) and
+  \[R_\lambda = \int_0^\infty e^{-\lambda t} T_t \dd t.\]
+\end{lemma}
+
+\section*{Invariant measures}
+
+Let \((B_t)\) be a standard Brownian motion in \(\mathbb{R}^d\), we look at an SDE of the form 
+\begin{equation}\label{eq:sde}
+  \dd x_t = b(x_t) \dd t + \sigma(x_t) \dd B_t
+\end{equation}
+where \(b : \mathbb{R}^d \to \mathbb{R}^d\) and \(\sigma : \mathbb{R}^d \to \mathbb{R}^{d \times d}\) 
+are sufficiently regular to guarantee certain well-posedness. We are interested in finding a/the invariant 
+measure of the SDE.
+
+It is well known that the solution of the SDE~\eqref{eq:sde} is a Markov process and we will first 
+look at its infinitesimal generator. To find this, we recall that we say the semigroup \(T_t\) corresponds 
+to the Markov process \((x_t)\) if for all \(s, t \ge 0\), we have that 
+\(T_t f(x_s) = \mathbb{E}[f(x_{s + t}) \mid \mathcal{F}_s]\) for any bounded measurable function \(f\).
+Thus, denoting \(T\) the transition semigroup of \((x_t)\), by It\^o's formula (and adopting Einstein's notation), 
+we have that for any \(f \in C^2_b\)
+\begin{align*}
+  T_t f(x) & = \mathbb{E}[f(x_t) \mid x_0 = x] \\
+  & = \mathbb{E}\left[f(x) + \partial_i f(x) \dd x_t^i + \partial_{ij}^2 f(x) \dd \langle x^i, x^j\rangle_t\right]\\
+  & = f(x) + \mathbb{E}\left[\partial_i f(x) b_i(x_t) \dd t + \partial_i f(x) \sigma_i(x_t) \dd B_t + 
+    \frac{1}{2} \partial_{ij}^2 f(x) \sigma_i(x_t)\sigma_j(x_t) \dd t\right]\\
+  & = f(x) + \partial_i f(x) \int_0^t b_i(x_s) \dd s + \frac{1}{2} \partial_{ij}^2 f(x) \int_0^t \sigma_i(x_s)\sigma_j(x_s) \dd s.
+\end{align*}
+Hence, taking derivatives in \(t\) at \(0\), we have that 
+\begin{equation}\label{eq:gen}
+  \mathcal{L}f(x) = \partial_i f(x) b_i(x) + \frac{1}{2}\partial_{ij}^2 f(x) \sigma_i(x) \sigma_j(x).
+\end{equation}
+The generator is useful in determining the invariant measure of the SDE via the following argument. Suppose that 
+\(\dd \pi = \rho(x) \dd x\) is an invariant measure of the SDE, then for any \(f \in D(\mathcal{L})\), 
+we have that
+\[\int T_t f \dd \pi - \int f \dd \pi = 0\]
+for any \(t \ge 0\), and thus, 
+\[\int \mathcal{L}f \dd \pi = \lim_{h \downarrow 0} \int T_h f \dd \pi - \int f \dd \pi = 0.\]
+On the other hand, denoting \(\mathcal{L}^*\) the adjoint of \(\mathcal{L}\), we have
+\[\int \mathcal{L}f \dd \pi = \int (\mathcal{L}f(x)) \rho(x) \dd x = \int f(x) \mathcal{L}^* \rho(x) \dd x.\]
+Hence, we have that \(\int f(x) \mathcal{L}^* \rho(x) \dd x = 0\) for any \(f \in D(\mathcal{L})\). Thus, 
+as \(D(\mathcal{L})\) is dense in \(L^2(\pi)\), we have that \(\mathcal{L}^* \rho = 0\). With this in mind, 
+by finding the adjoint \(\mathcal{L}^*\) and solving the PDE \(\mathcal{L}^* \rho = 0\), we obtain a 
+candidate for the invariant measure of the SDE~\eqref{eq:sde}. This is a special case of the Fokker-Planck 
+equation where the system is autonomous.
+
+To compute \(\mathcal{L}^*\) we find 
+\begin{align*}
+  \mathcal{L}^* g(x) &= - \partial_i g(x) b_i(x) + \frac{1}{2} \partial_{ij}^2 g(x) \sigma_i(x) \sigma_j(x)\\
+  & + \partial_i g(x) \sigma_i(x) \partial_j\sigma_j(x) + \frac{1}{2} \partial_{ij}^2(\sigma_i \sigma_j)(x) - g(x)\div b(x).
+\end{align*}
+In the case of additive noise, i.e. \(\sigma = I\), we thusly have 
+\[\mathcal{L}^* g(x) = - \partial_i g(x) b_i(x) + \frac{1}{2} \partial_{ij}^2 g(x) - g(x) \div b(x).\]
+
+
+\end{document}

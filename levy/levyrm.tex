@@ -32,6 +32,7 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{lemma}{Lemma}[section]
+\newtheorem*{lemma*}{Lemma}
 \newtheorem{proposition}{Proposition}[section]
 \newtheorem*{proposition*}{Proposition}
 \newtheorem{example}{Example}[section]
@@ -52,10 +53,14 @@ if
   \item it has independent increments, i.e. for all \(0 = t_0 < t_1 < t_2 < \cdots < t_n \leq T\), the 
     random variables \((Z_{t_{i + 1}} - Z_{t_i})_{i = 0}^{n - 1}\) are independent;
   \item it has stationary increments, i.e. for all \(0 \leq s < t \leq T\) and \(h > 0\), we have 
-    \[Z_{t + h} - Z_{s + h} \sim Z_t - Z_h;\]
+    \[Z_{t} - Z_{s} \sim Z_{t - s};\]
   \item it is continuous in probability, i.e. for all \(\epsilon > 0\) and \(t \in [0, T]\), we have 
     \[\lim_{h \to 0} \mathbb{P}(\abs{Z_{t + h} - Z_t} > \epsilon) = 0.\]
 \end{enumerate}
+
+In the case we are working on a filtered probability space with filtration \(\mathcal{F}\), we say \(Z\) is 
+a \(\mathcal{F}\)-L\'evy process if it is adapted to \(\mathcal{F}\) and independent increments condition is replaced by 
+\(Z_{t + s} - Z_s \perp \mathcal{F}_s\). If the filtration is natural then the two definitions are equivalent.
 
 It is easy to see that, if \((Z_t)\) is an \(L^1\)-L\'evy process is such that \(\mathbb{E}[Z_t] = mt\), 
 then \(M_t := Z_t - mt\) is a martingale with respect to its natural filtration. Moreover, if \((Z_t)\) is  
@@ -339,7 +344,9 @@ the existence of a unique solution to an SDE of the form
 where we assume linear growth and Lipschitz conditions on \(b, f\), and moreover, \(g\) satisfies 
 \[\frac{g(t, x, z)}{1 + |x|} \le K(z), |g(t, x, z) - g(t, y, z)| \le L(z) |x - y|\]
 where 
-\[\int_\mathcal{Z} (K(z)^p + L(z)^p) \mu(\dd z) < \infty\]
+\begin{equation}\label{eq:growth-lp}
+  \int_\mathcal{Z} (K(z)^p + L(z)^p) \mu(\dd z) < \infty
+\end{equation}
 for all \(p \ge 2\).
 
 Furthermore, under the same conditions, by the BDG inequality, we obtain continuity with respect to the 
@@ -367,5 +374,41 @@ solution flow \(\psi\) so that for \(t \in [0, \sigma_1(\omega))\), \(\psi_t(x) 
 \[\psi_t(x) = \phi_{\sigma_k(\omega), t}(\psi_k(x) + \Delta Z_{\sigma_k(\omega)}).\]
 Thus, inductively, as each term is continuous in \(x\) almost surely, we have that \(\psi\) is continuous 
 in \(x\). With this argument in mind, it suffices to only consider SDEs of the form \eqref{eq:levy-sde'}.
+
+In summary, for a L\'evy process \(Z\) with intensity \(\mu\), we recall that 
+\[\int \frac{|z|^2}{1 + |z|^2} \mu(\dd z) < \infty.\]
+Thus, as \(\frac{|z|^2}{1 + |z|^2} \ge \frac{1}{2}|z|^p\) for all \(|z| \le 1\) and \(p \ge 2\), 
+condition \eqref{eq:growth-lp} is satisfied (as \(\mathcal{Z} = B_1\setminus\{0\}, K(z) = |z|, L = 0\)) in this case. 
+Hence, \eqref{eq:levy-sde'} has a unique solution flow which is continuous in the initial condition 
+which in turn implies that \eqref{eq:levy-sde} has a unique solution flow by the above argument.
+(c.f. \href{https://math.stackexchange.com/questions/1878668/if-x-is-a-l%c3%a9vy-process-w-r-t-the-natural-filtration-mathcalf-is-it-so-w?rq=1}{stackexchange post}).
+
+\begin{lemma*}[Strong Markov Property for L\'evy Processes]
+  For \(Z\) a \(\mathcal{F}\)-L\'evy process and \(\tau\) a \(\mathcal{F}\)-stopping time, defining 
+  the process \(Z'_t = Z_{\tau + t} - Z_\tau\), we have that \(Z'\) is a process independent of 
+  \(\mathcal{F}_\tau^+\) and has the same distribution as \(Z\). 
+\end{lemma*}
+
+Consequently, taking \(\tau\) to be the deterministic time \(s\), the above shows \(Z_{t + s} - Z_{s} \perp \mathcal{F}_s^+\) 
+and so \(Z\) is a \(\mathcal{F}^+\)-L\'evy process. Thus, if \(\tau\) is a \(\mathcal{F}^+\)-stopping time, 
+by viewing \(Z\) as a \(\mathcal{F}^+\) stopping time, we have that \(Z_{t + \tau} - Z_{\tau}\) is independent
+of \(\mathcal{F}_\tau^+\) and has the same distribution as \(Z\).
+
+We say that a L\'evy process \(Z\) is \(\alpha\)-stable if for all \(t > 0\), \(Z_t \sim t^{1/\alpha}Z_1\). 
+It seems to me that, for \(\alpha \neq 2\), the L\'evy measure of \(Z\) cannot have finite second moment. 
+
+Suppose otherwise \(\mathbb{E}[Z_1^2] = \sigma^2 > 0\), then by stationary and independent increments, we have by CLT 
+\[\frac{Z_{\lfloor t\rfloor}}{\sqrt{\lfloor t\rfloor}} = 
+  \frac{1}{\sqrt{\lfloor t\rfloor}} \sum_{k = 0}^{\lfloor t\rfloor - 1} (Z_{k + 1} - Z_k) 
+  \xrightarrow{\mathcal{D}} \mathcal{N}(0, \sigma^2).\]
+Thus, if \(\alpha < 2\),
+\[\frac{Z_{\lfloor t\rfloor}}{{\lfloor t\rfloor}^{\frac{1}{\alpha}}} =
+  \lfloor t\rfloor^{\frac{1}{2} - \frac{1}{\alpha}}\frac{Z_{\lfloor t\rfloor}}{\sqrt{\lfloor t\rfloor}} 
+  \xrightarrow{\mathcal{D}} 0.\]
+However, this contradicts the fact that by stability \(\lfloor t\rfloor^{-\frac{1}{\alpha}}Z_{\lfloor t\rfloor} \sim Z_1\)
+for all \(t\). Similarly, in the case where \(\alpha > 2\), then 
+\[\mathcal{N}(0, \sigma^2) \xleftarrow{\mathcal{D}} \frac{Z_{\lfloor t\rfloor}}{\sqrt{\lfloor t\rfloor}} 
+ = \lfloor t\rfloor^{\frac{1}{\alpha} - \frac{1}{2}}\frac{Z_{\lfloor t\rfloor}}{{\lfloor t\rfloor}^{\frac{1}{\alpha}}}
+ \xrightarrow{\mathcal{D}} 0.\]
 
 \end{document}
