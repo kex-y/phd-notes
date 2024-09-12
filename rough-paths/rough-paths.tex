@@ -34,7 +34,7 @@
 \newtheorem*{remark}{Remark}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
-\newtheorem{lemma}{Lemma}[section]
+\newtheorem{lemma}{Lemma}
 \newtheorem*{lemma*}{Lemma}
 \newtheorem{proposition}{Proposition}[section]
 \newtheorem*{proposition*}{Proposition}
@@ -63,7 +63,7 @@ such that
   \|\mathbb{X}\|_{2\alpha} = \sup_{s \neq t \in [0, T]} \frac{\|\mathbb{X}_{s, t}\|}{|s - t|^{2\alpha}} < \infty\]
 and moreover, satisfy \textit{Chen's relation}:
 \begin{equation}\label{eq:chen}
-  \mathbb{X}_{s, t} - \mathbb{X}_{s, u} - \mathbb{X}_{u, t} = X_{s, u} \otimes X_{u, t}
+  \delta \mathbb{X}_{s, u, t} = \mathbb{X}_{s, t} - \mathbb{X}_{s, u} - \mathbb{X}_{u, t} = X_{s, u} \otimes X_{u, t}
 \end{equation}
 where we denote \(X_{s, t} = X_t - X_s\).
 
@@ -102,7 +102,7 @@ does not respect Chen's relation, we remark that this norm does not make the spa
 Instead, define 
 \[\vertiii{(X, \mathbb{X})}_\alpha = \|X\|_\alpha + \sqrt{\|\mathbb{X}\|_{2\alpha}}.\]
 We also record the following (in-homogeneous) \(\alpha\)-H\"older metric on \(\mathcal{C}^\alpha([0, T], V)\):
-\[\rho_\alpha(\mathcal{X}, \mathcal{Y}) = \sup_{s \neq t \in [0, T]}\frac{\|X_{s, t} - Y_{s, t}\|}{|s - t|^\alpha} + 
+\[\rho_\alpha(\mathsf{X}, \mathsf{Y}) = \sup_{s \neq t \in [0, T]}\frac{\|X_{s, t} - Y_{s, t}\|}{|s - t|^\alpha} + 
   \sup_{s \neq t \in [0, T]}\frac{\|\mathbb{X}_{s, t} - \mathbb{Y}_{s, t}\|}{|s - t|^{2\alpha}}.\]
 
 
@@ -117,9 +117,9 @@ with the inherited multiplication from \(T^{(2)}(V)\), we have that \(T^{(2)}_1(
 with the identity \((1, 0, 0)\) and inverse given by 
 \[(1, b, c)^{-1} = (1, -b, b^{\otimes 2} - c).\]
 Then, we consider paths taking values in \(T^{(2)}_1(V)\) and in particular, interpret 
-\[t \mapsto \mathcal{X}_t = (1, X_t, \mathbb{X}_{0, t}) \in T^{(2)}_1{V}.\]
-Chen's relation in this case becomes \(\mathcal{X}_{s, u} \otimes \mathcal{X}_{u, t} = \mathcal{X}_{s, t}\) 
-where \(\mathcal{X}_{s, t} = \mathcal{X}_{s}^{-1} \otimes \mathcal{X}_t\).
+\[t \mapsto \mathsf{X}_t = (1, X_t, \mathbb{X}_{0, t}) \in T^{(2)}_1{V}.\]
+Chen's relation in this case becomes \(\mathsf{X}_{s, u} \otimes \mathsf{X}_{u, t} = \mathsf{X}_{s, t}\) 
+where \(\mathsf{X}_{s, t} = \mathsf{X}_{s}^{-1} \otimes \mathsf{X}_t\).
 
 Denoting \(T^{(2)}_0(V) = V \oplus V^{\otimes 2}\), we define its Lie bracket by 
 \[[(b, c), (b', c')] = b \otimes b' - b' \otimes b.\]
@@ -137,18 +137,18 @@ taking values in \(G^{(2)}(V)\) corresponds to the weakly geometric rough paths.
 \subsection*{Integration of one-forms}
 
 Integration of rough paths is motivated by Taylor expansion. Suppose \(F : V \to \mathcal{L}(V, W) \in C^{1 +}\), and 
-\(\mathcal{X} = (X, \mathbb{X}) \in \mathcal{C}^\alpha\), then Taylor expansion gives
+\(\mathsf{X} = (X, \mathbb{X}) \in \mathcal{C}^\alpha\), then Taylor expansion gives
 \[F(X_r) \approx F(X_s) + DF(X_r)X_{s, r}\]
 with \(DF(X_t) \in \mathcal{L}(V, \mathcal{L}(V, W)) = \mathcal{L}(V \otimes V, W)\). Then, the Riemann-Stieltjes 
 sum can be interpreted as 
 \begin{equation}\label{eq:rs-sum}
-  \int_s^t F(X_r) \dd \mathcal{X}_r = 
+  \int_s^t F(X_r) \dd \mathsf{X}_r = 
   \lim_{|\mathcal{P}| \to 0} \sum_{[u, v] \in \mathcal{P}} \left(F(X_u)X_{u, v} + DF(X_r)\mathbb{X}_{s, r}\right)
 \end{equation}
 where we hope the higher order terms vanished. This turns out to be the case for \(\alpha \in (1/3, 1/2]\).
 
 \begin{lemma}\label{lem:control}
-  Let \(F : V \to \mathcal{L}(V, W) \in C^2_b\) and \(\mathcal{X} = (X, \mathbb{X})\) be an \(\alpha\)-H\"older 
+  Let \(F : V \to \mathcal{L}(V, W) \in C^2_b\) and \(\mathsf{X} = (X, \mathbb{X})\) be an \(\alpha\)-H\"older 
   rough path with \(\alpha > 1/3\).
   Then, denoting \(Y = F(X)\), \(Y' = DF(X)\) and \(R^Y_{s, t} = Y_{s, t} - Y'_s X_{s, t}\), then 
   \[Y, Y' \in C^\alpha \text{ and } R^Y \in C_2^{2\alpha}.\]
@@ -163,7 +163,7 @@ resulting in the following theorem.
 \begin{theorem}[Lyons]
   Let \(F : V \to \mathcal{L}(V, W) \in C^2_b\) and \((X, \mathbb{X})\) be an \(\alpha\)-H\"older rough path with \(\alpha > 1/3\).
   Then, the limit~\eqref{eq:rs-sum} exists and we have the bound
-  \[\left\|\int_s^t F(X_r) \dd \mathcal{X}_r - F(X_s) X_{s, t} - DF(X_s) \mathbb{X}_{s, t}\right\|
+  \[\left\|\int_s^t F(X_r) \dd \mathsf{X}_r - F(X_s) X_{s, t} - DF(X_s) \mathbb{X}_{s, t}\right\|
     \lesssim_{\alpha}\|F\|_{C^2_b}(\|X\|^3_\alpha + \|X\|_\alpha\|\mathbb{X}\|_{2\alpha})|t - s|^{3\alpha}.\]
 \end{theorem}
 
@@ -181,28 +181,71 @@ We endow \(\mathcal{D}^{2\alpha}_X([0, T], \bar W)\) with the seminorm
 \[\|Y, Y'\|_{X, 2\alpha} = \|Y'\|_\alpha + \|R^Y\|_{2\alpha}.\]
 
 \begin{theorem}[Gubinelli]
-  Let \(\mathcal{X} = (X, \mathbb{X}) \in \mathcal{C}^\alpha([0. T], V)\) and 
+  Let \(\mathsf{X} = (X, \mathbb{X}) \in \mathcal{C}^\alpha([0. T], V)\) and 
   \((Y, Y') \in \mathcal{D}^{2\alpha}_X([0, T], \mathcal{L}(V, W))\) where \(\alpha \in (1/3, 1/2]\).
   Then, the limit 
-  \[\int_s^t Y_r \dd \mathcal{X}_r = \lim_{|\mathcal{P}| \to 0} \sum_{[u, v] \in \mathcal{P}}\left(Y_u X_{u, v} + Y'_u \mathbb{X}_{u, v}\right)\]
+  \[\int_s^t Y_r \dd \mathsf{X}_r = \lim_{|\mathcal{P}| \to 0} \sum_{[u, v] \in \mathcal{P}}\left(Y_u X_{u, v} + Y'_u \mathbb{X}_{u, v}\right)\]
   exists. Moreover, we have the bound 
-  \[\left\| \int_s^t Y_r \dd \mathcal{X}_r - Y_s X_{s, t} - Y'_s \mathbb{X}_{s, t}\right\| 
+  \[\left\| \int_s^t Y_r \dd \mathsf{X}_r - Y_s X_{s, t} - Y'_s \mathbb{X}_{s, t}\right\| 
     \lesssim_{\alpha} (\|X\|_{\alpha}\|R^Y\|_{2\alpha} + \|\mathbb{X}\|_{2\alpha}\|Y'\|_\alpha)|t - s|^{3\alpha}.\]
   Finally, the map 
   \[\Phi : \mathcal{D}^{2\alpha}_X([0, T], \mathcal{L}(V, W)) \to \mathcal{D}^{2\alpha}_X([0, T], W): 
-    (Y, Y') \mapsto \left(\int_0^{\cdot} Y_r \dd \mathcal{X}_r, Y\right)\]
+    (Y, Y') \mapsto \left(\int_0^{\cdot} Y_r \dd \mathsf{X}_r, Y\right)\]
   is a continuous linear map between Banach spaces with the bound 
   \[\|\Phi(Y, Y')\|_{X, 2\alpha} \le \|Y\|_\alpha + \|Y'\|_\infty\|\mathbb{X}\|_{2\alpha} + 
     C_\alpha T^\alpha(\|X\|_\alpha \|R^Y\|_{2\alpha} + \|\mathbb{X}\|_{2\alpha}\|Y'\|_{\alpha}).\] 
 \end{theorem}
 
-Finally, if \((X, \mathbb{X}) \in \mathcal{C}^\alpha([0, T], V)\) and 
-\((Y, Y') \in \mathcal{D}^{2\alpha}_X([0, T], \mathcal{L}(\bar V, bar W))\),
+Moreover, if \((X, \mathbb{X}) \in \mathcal{C}^\alpha([0, T], V)\) and 
+\((Y, Y') \in \mathcal{D}^{2\alpha}_X([0, T], \mathcal{L}(\bar V, \bar W))\),
 \((Z, Z') \in \mathcal{D}^{2\alpha}_Y([0, T], \bar V)\), then defining 
 \[\Xi_{s, t} = Y_s Z_{s, t} + Y'_s Z'_s X_{s, t}\]
 where we interpret \(Y'_s \in \mathcal{L}(V, \mathcal{L}(\bar V, \bar W)) \simeq \mathcal{L}(V \otimes \bar V, \bar W)\), 
 we may apply the sewing lemma in order to make sense of 
 \(\int_s^t Y_r \dd Z_r\).
+
+\subsection*{Reduced rough paths}
+
+Suppose now we look at rough integration against gradient vector fields, i.e. \(\int_0^T D F(X_s) \dd \mathsf{X}_s\) 
+for some \(F \in \mathcal{C}^1_b(V, W)\). In this case, the corresponding integral is given by 
+\[\int_0^T D F(X_s) \dd \mathsf{X}_s 
+  = \sum_{(s, t) \in \mathcal{P}} \left(DF(X_s) X_{s, t} + D^2F(X_s)\mathbb{X}_{s, t}\right) + o(|\mathcal{P}|).\]
+In this case, as \(D^2 F(X_s) \in \mathcal{L}(V \otimes V, W)\) is symmetric, it annihilates any antisymmetric 
+parts of \(\mathbb{X}\). Thus, denoting \(\mathbb{S} + \mathbb{A} = \mathbb{X}\) for the symmetric and 
+any antisymmetric part of \(\mathbb{X}\), we have that \(D^2F(X_s)\mathbb{X}_{s, t} = D^2F(X_s)\mathbb{S}_{s, t}\) 
+and 
+\begin{equation}\label{eq:reduced}
+  \int_0^T D F(X_s) \dd \mathsf{X}_s 
+    = \sum_{(s, t) \in \mathcal{P}} \left(DF(X_s) X_{s, t} + D^2F(X_s)\mathbb{S}_{s, t}\right) + o(|\mathcal{P}|).
+\end{equation}
+Consequently, the rough integral in this case is completely determined by the symmetric part of the lift. 
+With this in mind, we call a pair \((X, \mathbb{S})\) a \textit{reduced rough path} if they satisfy 
+the same H\"older condition as a rough path while \(\mathbb{S}\) satisfies the reduced Chen's relation:
+\[\delta \mathbb{S}_{s, u, t} = \mathbb{S}_{s, t} - \mathbb{S}_{s, u} - \mathbb{S}_{u, t} = \text{Sym}(X_{s, u} \otimes X_{u, t})\]
+It is easy to check that, for any \(\gamma : [0, T] \to V \otimes V\) which is \(2\alpha\)-H\"older, 
+\[\mathbb{S}_{s, t} = \frac{1}{2}(X_{s, t} \otimes X_{s, t} + \gamma_{s, t})\]
+is a reduced rough path. Moreover, it turns out all reduced rough paths are of this form.
+\begin{definition}
+  For a reduced rough path \(\mathsf{X} = (X, \mathbb{S})\), we define the bracket 
+  \[[\mathsf{X}] : t \in [0, T] \mapsto [\mathsf{X}]_t
+    = X_{0, t} \otimes X_{0, t} - 2 \mathbb{S}_{0, t} \in \text{Sym}(V \otimes V) .\]
+\end{definition}
+It is clear that \([\mathsf{X}]\) defines a \(2\alpha\)-H\"older path in \(\text{Sym}(V \otimes V)\) 
+and \([\mathsf{X}]_{s, t} = X_{s, t} \otimes X_{s, t} - 2 \mathbb{S}_{s, t}\).
+\begin{theorem}[It\^o's formula for rough integrals]
+  For \(F : V \to W\) in \(\mathcal{C}^3_b\) and \(\mathsf{X} = (X, \mathbb{S})\) a \(\alpha\)-reduced rough path 
+  with \(\alpha > \frac{1}{3}\), then 
+  \[\dd F(X_t) = DF(X_t) \dd \mathsf{X}_t + \frac{1}{2} D^2F(X_t) \dd{} [\mathsf{X}]_t\]
+  with the first integral defined by Equation~\eqref{eq:reduced} and the second integral interpreted as 
+  a Young integral.
+\end{theorem}
+For Brownian motion, the bracket coincides with the quadratic variation. Indeed, let 
+\(\mathsf{B} = (B, \mathbb{B}^{\text{It\^o}})\) be the It\^o lift of a Brownian motion in \(\mathbb{R}\), 
+by the classical It\^o's formula, we have 
+\[\text{Sym}(\mathbb{B}^{\text{It\^o}}_{0, t}) = \mathbb{B}^{\text{It\^o}}_{0, t}
+  = \frac{1}{2}B_t^2 - \frac{1}{2} t.\]
+Thus, 
+\[[\mathsf{B}]_t = B_t^2 - 2\mathbb{B}^{\text{It\^o}}_{0, t} = t = \langle B\rangle_t.\]
 
 \subsection*{Stability}
 
@@ -217,7 +260,7 @@ which is an injection if we fix \(Y_0 = \xi\) (since then \(Y_t = \xi + R^Y_{0, 
 \[\|Y, Y'; \tilde Y, \tilde Y'\|_{X, \tilde X, 2\alpha} = \|\iota_X(Y, Y') - \iota_{\tilde X}(\tilde Y, \tilde Y')\|_{\alpha, 2\alpha}.\]
 To this end, we have a bound of the form 
 \[\|\Phi(Y, Y'); \Phi(\tilde Y, \tilde Y')\|_{X, \tilde X, 2\alpha} \le 
-  C(\rho_\alpha(\mathcal{X}, \tilde{\mathcal{X}}) + |Y'_0 - \tilde{Y}'_0| + T^\alpha \|Y, Y'; \tilde Y, \tilde Y'\|_{X, \tilde X, 2\alpha})\]
+  C(\rho_\alpha(\mathsf{X}, \tilde{\mathsf{X}}) + |Y'_0 - \tilde{Y}'_0| + T^\alpha \|Y, Y'; \tilde Y, \tilde Y'\|_{X, \tilde X, 2\alpha})\]
 
 
 
