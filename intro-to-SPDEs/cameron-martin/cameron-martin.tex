@@ -1,0 +1,188 @@
+\documentclass[]{article}
+\usepackage{amssymb,amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[T1]{fontenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Notes on the Cameron-Martin Space},
+  pdfauthor={Kexing Ying},
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Maroon,
+  urlcolor=Maroon}
+\usepackage{xcolor}
+\usepackage[margin = 1.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{physics}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\setlength{\parindent}{0pt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{definition*}{Definition}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{example}{Example}[section]
+
+\setlength{\parskip}{3pt}
+
+\title{Notes on the Cameron-Martin Space}
+\author{Kexing Ying}
+
+\begin{document}
+
+\maketitle
+
+Notes taken during the \textit{Introduction to SPDEs} lectures given by Martin Hairer 
+(2024 Spring at EPFL).
+
+\section*{Abstract theory}
+
+We look at Gaussian measures on (mostly infinitely dimensional) Banach spaces. While on \(\mathbb{R}^d\), 
+the notion of a Gaussian measure can be easily defined by specifying its density with respect to the 
+Lebesgue measure, this is clearly not case for infinite dimensional spaces. Instead, since for \(X\) a 
+separable Banach space, any Borel measure \(\mu\) on \(X\) is uniquely determined by its projections 
+on its linear functionals, we define a Gaussian measure on \(X\) by requiring that its projections are 
+real Gaussians. 
+
+We will take \(X\) to be a separable Banach space and \(H\) a Hilbert space from this point forward.
+We denote \(\mathcal{M}(X)\) and \(\mathcal{M}(H)\) to be the space of Borel probability measures 
+on \(X\) and \(H\) respectively.
+
+\begin{lemma}
+  For \(\mu, \nu \in \mathcal{M}(X)\), \(\mu = \nu\) if and only if for all \(l \in X^*\), we have that 
+  \(l_* \mu = l_* \nu\).
+\end{lemma}
+
+\begin{definition}
+  \(\mu \in \mathcal{M}(X)\) is a Gaussian measure if for all \(l \in X^*\), denoting \(l_* \mu\) the 
+  push-forward measure of \(\mu\) along \(l\), we have that \(l_* \mu\) is a Gaussian measure on \(\mathbb{R}\).
+  We say \(\mu\) is centered if for all \(l \in X^*\), \(l_* \mu\) is centered.
+\end{definition}
+
+We focus on the case where \(\mu\) is centered as we can always translate \(\mu\) if needed.
+
+\begin{definition}
+  For \(\mu \in \mathcal{M}(X)\) a Gaussian measure, we define its covariance by 
+  \[C_\mu : X^* \times X^* \to \mathbb{R} : (l, l') \mapsto \int_X l(x) l'(x) \mu(\dd x).\] 
+  By the property of the integral, it is clear that the covariance operator is a symmetry, positive semi-definite 
+  bilinear form.
+\end{definition}
+
+\begin{definition}
+  For \(\mu \in \mathcal{M}(X)\) a Gaussian measure, we define its Fourier transform by 
+  \[\hat \mu(l) = \int_X e^{il(x)} \mu(\dd x) = \exp \left(-\frac{1}{2} C_\mu(l, l)\right)\]
+  where the second equality is due to properties of the real Gaussian. Similar to the finite dimensional 
+  case, \(\mu\) is uniquely determined by its Fourier transform (this is a general property not just for Gaussians).
+\end{definition}
+
+The covariance of \(\mu\) can be viewed in many ways most notably, 
+\[C_\mu : X^* \to X : l \mapsto \int_X x l(x) \mu(\dd x)\]
+for which the integral is well-defined (by Fernique, see below) as a Bochner integral. 
+We then have \(C_\mu(l, l') = l'(C_\mu l)\).
+
+An important theorem for the Gaussian measure is Fernique's theorem which shows that the Gaussian has 
+finite moments of all orders (via exponential Chebyshev).
+
+\begin{theorem}[Fernique's Theorem]
+  For \(\mu \in \mathcal{M}(X)\) a Gaussian measure, there exists a constant \(\alpha > 0\) such that 
+  \[\int_X \exp(\alpha \norm{x}^2) \mu(\dd x) < \infty.\]
+\end{theorem}
+
+As a consequence of Fernique's, any Gaussian measure has finite variance and thus, the covariance operator
+is bounded. 
+
+\begin{proposition}
+  For \(\mu \in \mathcal{M}(H)\) a Gaussian measure, viewing \(C_\mu : H \to H\) applying Riesz representation 
+  whenever needed, we have 
+  \[\int_H \|x\|^2 \mu(\dd x) = \tr C_\mu = \sum_{k = 1}^\infty \langle C_\mu(e_k), e_k\rangle\]
+  where \((e_k)_{k = 1}^\infty\) is an orthonormal basis of \(H\). Namely, \(C_\mu\) is 
+  positive, self-adjoint and trace class. Conversely, if \(C\) is a positive, self-adjoint and trace class 
+  operator, then there exists a Gaussian measure \(\mu\) on \(H\) such that \(C = C_\mu\).
+\end{proposition}
+
+While so far, the definition and the behavior of the Gaussian on Banach space is seemingly intuitive, 
+this cannot be further from the truth should we look a bit closer. While, in the finite dimensional case,
+the Gaussian measures are always equivalent to the Lebesgue measure, and consequently each other, 
+in infinite dimensions, Gaussians a easily mutually singular. As we shall see, in fact with probability 
+one, any translation of the Gaussian will be mutually singular to the original Gaussian. The 
+Cameron-Martin space is then the linear subspace of \(X\) with zero measure for which translation 
+dose not make the Gaussian measure singular. While it has measure zero, it turns out that the 
+Cameron-Martin space characterized the Gaussian measure completely.
+
+\begin{definition}
+  For \(\mu \in \mathcal{M}(X)\) a Gaussian measure, we define 
+  \[\mathring H_\mu = \{h \in X : \exists h^* \in X^*, C_\mu(h^*) = h\} = C_\mu(X^*),\]
+  where we equip it with the inner product \(\langle h, k\rangle_\mu = C_\mu(h^*, k^*)\). Then, the 
+  Cameron-Martin space \(H_\mu\) of \(\mu\) is defined as the closure of \(\mathring H_\mu\) under 
+  its norm \(\norm{\cdot}_\mu\).
+\end{definition}
+
+Despite the norm under which the Cameron-Martin space is completed over is different, the Cameron-Martin 
+space is always a subspace of the original Banach space.
+
+\begin{theorem}[Cameron-Martin]
+  Let \(\mu \in \mathcal{M}(X)\) be a Gaussian.
+  For \(h \in X\), denoting \(\tau_h : x \in X \mapsto x + h\), we have that \(\tau_h^* \mu \ll \mu\) if and only 
+  if \(h \in H_\mu\). In this case, 
+  \[\dv{\tau_h^* \mu}{\mu} = \exp(h^*(x) - \frac{1}{2}\|h\|^2_\mu).\]
+\end{theorem}
+
+\begin{proposition}
+  \[H_\mu = \bigcap_{V \le X; \mu(V) = 1} V,\]
+  and \(\mu(H_\mu) = 0\) if and only if \(\dim(X) = \infty\).
+\end{proposition}
+
+As a consequence, if \(A \in \mathcal{L}(X)\) a linear isomorphism, denoting \(\nu = A_* \mu\), 
+we have that 
+\[H_\nu = \bigcap_{V \le X; \nu(V) = 1} V = \bigcap_{V \le X; \mu(A^{-1}V) = 1} V = 
+  \bigcap_{V \le X; \mu(V) = 1} AV = A(H_\mu)\]
+
+\section*{Examples}
+
+Let \(\mu\) be the Gaussian measure on \(\mathcal{C}([0, 1], \mathbb{R})\) with covariance 
+\(C_\mu(\delta_t, \delta_s) = s \wedge t\). \(\mu\) corresponds to the law of the Brownian motion 
+on \([0, 1]\) and we call it the Wiener measure. We have that \(H_\mu = H^{1, 2}_0([0, 1])\) - 
+the space of all absolutely continuous functions \(h\) with \(h(0) = 0\) and \(\dot h(s) \in L^2([0, 1])\). Moreover, for \(h \in H_\mu\), 
+\(h^*(k) = \int_0^1 \dot h(s) \dot k(s) \dd s\). As this defines a bounded linear functional from \(H_\mu\), 
+we can almost surely uniquely extend \(h^*\) to a measurable element of \(C_\mu(\delta_t, \delta_s)^*\). To see this, it suffices to check that 
+\[h_t = \delta_t(h) = C_\mu(\delta_t, h^*) = h^*(C_\mu(\delta_t)).\]
+We see that 
+\[C_\mu(\delta_t)_s = \left(\int \omega \delta_t(\omega) \mu(\dd \omega)\right)_s 
+  = \int \omega_s \omega_t \mu(\dd \omega) = C_\mu(\delta_t, \delta_s) = s \wedge t.\]
+Thus, \(\dot{C}_\mu(\delta_t)_s = \mathbb{1}_{[0, t]}(s)\) and hence,
+\[h^*(C_\mu(\delta_t)) = \int_0^t \dot f_s \dd s = f_t\]
+as required.
+
+As an application, the Cameron-Martin theorem allows us to bound the probability that a Brownian motion 
+stays near a given function. In particular, for \(f \in H^{1, 2}_0([0, 1])\), denoting \(\mu_W\) for the 
+Wiener measure, we have that
+\[\mathbb{P}(|B_t - f|_\infty \le \epsilon) = \tau_{-f}^* \mu_W(\overline B_\epsilon(0))
+  = e^{-\frac{1}{2}\|f\|^2_{H^{1, 2}_0([0, 1])}} \int_{\overline B_\epsilon(0)} e^{- f^*(\omega)} \mu_W(\dd \omega).\]
+This is then bounded above by 
+\[e^{-\frac{1}{2}\|f\|^2_{H^{1, 2}_0([0, 1])} + \epsilon \|f^*\|_{X^*}} \mathbb{P}(|B_t|_\infty \le \epsilon).\]
+On the other hand, using the inequality \(e^x \ge 1 + x\), we have that 
+\[\int_{\overline B_\epsilon(0)} e^{- f^*(\omega)} \mu_W(\dd \omega) \ge 
+  \int_{\overline B_\epsilon(0)} (1 + - f^*(\omega)) \mu_W(\dd \omega)
+  \ge \mathbb{P}(|B_t|_\infty \le \epsilon) - \int_{\overline B_\epsilon(0)} f^*(\omega) \mu_W(\dd \omega)\]
+Now, since \(f^*_* \mu_W \sim \mathcal{N}(0, \|f\|_{H_W}^2)\), the last integral is zero by spherical symmetry. 
+Consequently, have the bound 
+\[\mathbb{P}(|B_t - f|_\infty \le \epsilon) \in 
+  e^{-\frac{1}{2}\|f\|^2_{H^{1, 2}_0([0, 1])}} 
+  \left[\mathbb{P}(|B_t|_\infty \le \epsilon), e^{\epsilon \|f^*\|_{X^*}}\mathbb{P}(|B_t|_\infty \le \epsilon)\right]\]
+and thus, 
+\[\lim_{\epsilon \downarrow 0} \frac{\mathbb{P}(|B_t - f|_\infty \le \epsilon)}{\mathbb{P}(|B_t|_\infty \le \epsilon)} 
+  = e^{-\frac{1}{2}\|f\|^2_{H^{1, 2}_0([0, 1])}}.\]
+
+\end{document}

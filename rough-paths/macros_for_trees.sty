@@ -1,0 +1,1063 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%.sty_file
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%Pavlos_Tsatsoulis
+%%%2015/12/16
+%%%macros_test_package
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{macros_for_trees}[2015/12/16 Test Package]
+
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
+\RequirePackage{ifthen}
+\usetikzlibrary{calc,intersections,through,backgrounds}
+\usetikzlibrary{decorations.pathreplacing,decorations.pathmorphing,decorations.markings,decorations.shapes}
+\usetikzlibrary{shapes}
+\usetikzlibrary{external}
+ %use_to_externalize_macros_so_as_to_reduce_compiling_time_\tikzexternalize
+ 
+
+\tikzset{zigzag/.style={decorate, decoration=snake}}
+
+
+\makeatletter %@->11 (normal_char)
+\def\DeclareSymbol#1#2#3{\expandafter\gdef\csname MH@symb@#1\endcsname{\tikz[baseline=#2, scale=.18]{#3}}}
+\def\<#1_#2>{\ensuremath{\mathchoice{\tikzsetnextfilename{macros_#1_#2}{\color{#2}\csname MH@symb@#1\endcsname}}{\tikzsetnextfilename{macros_#1_#2}{\color{#2}\csname MH@symb@#1\endcsname}}{\tikzsetnextfilename{macros_#1_#2}\scalebox{.5}{\color{#2}\csname MH@symb@#1\endcsname}}
+{\tikzsetnextfilename{macros_#1_#2}\scalebox{.4}{\color{#2}\csname MH@symb@#1\endcsname}}}}%\mathchoice{displaystyle}{textstyle}{scriptstyle}{subscriptstyle} 
+\makeatother %@->12 (not_normal_char)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%   Example of Coproduct
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSymbol{leg}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (1.2,1.5) {};
+\draw[line width=0.2mm] (0,0) node[below, scale = .6] {$i$}  -- (1.2,1.5)node[right,scale=.6] {$j$};}
+
+
+\DeclareSymbol{leg2}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (1.2,1.5) {};
+\draw[line width=0.2mm] (0,0) node[below, scale = .6] {$l$}  -- (1.2,1.5)node[right,scale=.6] {$k$};}
+
+\DeclareSymbol{longleg}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (1.2,1.5) {};
+\node [dot] at (0,3) {};
+\draw[line width=0.2mm] (0,0) node[below, scale = .6] {$i$}  -- (1.2,1.5)node[right,scale=.6] {$j$};
+\draw[line width=0.2mm] (1.2,1.5)  -- (0,3)node[left,scale=.6] {$k$};}
+
+\DeclareSymbol{square}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (-1.2,1.5) {};
+\node [dot] at (1.2,1.5) {};
+\draw[line width=0.2mm] (0,0) node[right, scale = .6] {$m$} -- (-1.2,1.5)node[left, scale = .6] {$n$};
+\draw[line width=0.2mm] (0,0) -- (1.2,1.5)node[right,scale=.6] {$o$};}
+
+\DeclareSymbol{square2}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (-1.2,1.5) {};
+\node [dot] at (1.2,1.5) {};
+\draw[line width=0.2mm] (0,0) node[right, scale = .6] {$i$} -- (-1.2,1.5)node[left, scale = .6] {$k$};
+\draw[line width=0.2mm] (0,0) -- (1.2,1.5)node[right,scale=.6] {$j$};}
+
+\DeclareSymbol{tallsquare}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (0,1.5) {};
+\node [dot] at (-1.2,3) {};
+\node [dot] at (1.2,3) {};
+\draw[line width=0.2mm] (0,0) node[right, scale = .6] {$l$} -- (0,1.5);
+\draw[line width=0.2mm] (0,1.5) node[right, scale = .6] {$m$} -- (-1.2,3)node[left, scale = .6] {$n$};
+\draw[line width=0.2mm] (0,1.5) -- (1.2,3)node[right,scale=.6] {$o$};}
+
+\DeclareSymbol{squareleg1}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (1.2,1.5) {};
+\node [dot] at (0,3.5) {};
+\node [dot] at (-1.2,5.5) {};
+\node [dot] at (1.2,5.5) {};
+\draw[line width=0.2mm] (0,0) node[below, scale = .6] {$i$}  -- (1.2,1.5)node[right,scale=.6] {$j$};
+\draw[line width=0.2mm]  (1.2,1.5) -- (0,3.5);
+\draw[line width=0.2mm] (0,3.5) node[left, scale = .6] {$m$} -- (-1.2,5.5)node[left, scale = .6] {$n$};
+\draw[line width=0.2mm] (0,3.5) -- (1.2,5.5)node[right,scale=.6] {$o$};}
+
+\DeclareSymbol{squareleg2}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (1.2,1.5) {};
+\node [dot] at (-1.2,1.5) {};
+\node [dot] at (-2.4,3) {};
+\node [dot] at (0,3) {};
+\draw[line width=0.2mm] (0,0) node[below, scale = .6] {$i$}  -- (1.2,1.5)node[right,scale=.6] {$j$};
+\draw[line width=0.2mm]  (0,0) -- (-1.2,1.5);
+\draw[line width=0.2mm] (-1.2,1.5) node[left, scale = .6] {$m$} -- (-2.4,3)node[left, scale = .6] {$n$};
+\draw[line width=0.2mm]  (-1.2,1.5) -- (0,3)node[right,scale=.6] {$o$};}
+
+
+\DeclareSymbol{bigleg}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (1.2,1.5) {};
+\node [dot] at (-1.2,1.5) {};
+\node [dot] at (1.2,3.5) {};
+\draw[line width=0.2mm] (0,0) node[right, scale = .6] {$l$}  -- (1.2,1.5)node[right,scale=.6] {$i$};
+\draw[line width=0.2mm] (1.2,1.5) node[below, scale = .6] {}  -- (1.2,3.5)node[right,scale=.6] {$j$};
+\draw[line width=0.2mm] (0,0) node[below, scale = .6] {}  -- (-1.2,1.5)node[left,scale=.6] {$k$};
+}
+
+\DeclareSymbol{bigleg2}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (-1.2,1.5) {};
+\node [dot] at (1.2,1.5) {};
+\node [dot] at (-1.2,3.5) {};
+\draw[line width=0.2mm] (0,0) node[right, scale = .6] {$l$}  -- (-1.2,1.5)node[right,scale=.6] {$i$};
+\draw[line width=0.2mm] (-1.2,1.5) node[below, scale = .6] {}  -- (-1.2,3.5)node[right,scale=.6] {$j$};
+\draw[line width=0.2mm] (0,0) node[below, scale = .6] {}  -- (1.2,1.5)node[left,scale=.6] {$k$};
+}
+
+\DeclareSymbol{legnolabel}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (1.2,1.5) {};
+\draw[line width=0.2mm] (0,0) node[below, scale = .6] {}  -- (1.2,1.5)node[right,scale=.6] {};}
+
+\DeclareSymbol{squarenolabel}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (-1.2,1.5) {};
+\node [dot] at (1.2,1.5) {};
+\draw[line width=0.2mm] (0,0) -- (-1.2,1.5)node[left, scale = .6] {};
+\draw[line width=0.2mm] (0,0) -- (1.2,1.5)node[right,scale=.6] {};}
+
+\DeclareSymbol{cube}{0}{\path (-.7,0) -- (.7,0); 
+\node [dot] at (0,0) {};
+\node [dot] at (0,1.7) {};
+\node [dot] at (-1.2,1.5) {};
+\node [dot] at (1.2,1.5) {};
+\draw[line width=0.2mm] (0,0)node[below, scale = .6] {$i$} -- (0,1.7) node[above, scale = .6] {$l$};
+\draw[line width=0.2mm] (0,0) -- (-1.2,1.5)node[left, scale = .6] {$j$}{};
+\draw[line width=0.2mm] (0,0) -- (1.2,1.5)node[right,scale=.6] {$n$};}
+
+
+
+\DeclareSymbol{K*(1K*3K*3)b}{0}{\path (-2,0) -- (2,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (.5,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (1.5,4.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (2.4,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-.5,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-1.5,4.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-2.4,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.2) -- (1.5, 2.6);
+\draw[line width=.2mm] (0,1.2) -- (-1.5, 2.6);}
+
+\DeclareSymbol{Ki*(1K*3K*3)b}{0}{\path (-2,0) -- (2,0);
+\draw[line width=.2mm] (0,0) --(0,.5) node[right,scale=.6] {$i$};
+\draw[line width=.2mm] (0,.5) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (.5,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (1.5,4.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (2.4,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-.5,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-1.5,4.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-2.4,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.2) -- (1.5, 2.6);
+\draw[line width=.2mm] (0,1.2) -- (-1.5, 2.6);}
+
+\DeclareSymbol{K*(1K*zK*z)b}{0}{\path (-2,0) -- (2,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.2) -- (1.5, 2.6) node[right, scale=.6]{$0$};
+\draw[line width=.2mm] (0,1.2) -- (-1.5, 2.6)node[left,scale=.6]{$0$};}
+
+
+\DeclareSymbol{K*(1K*zK*3)b}{0}{\path (-2,0) -- (2,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (.5,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (1.5,4.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.5, 2.6) -- (2.4,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.2) -- (1.5, 2.6);
+\draw[line width=.2mm] (0,1.2) -- (-1.5, 2.6)node[left,scale=.6]{$0$};}
+
+
+\DeclareSymbol{K*(1K*3K*z)b}{0}{\path (-2,0) -- (2,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-.5,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-1.5,4.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.5, 2.6) -- (-2.4,3.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.2) -- (1.5, 2.6) node[right, scale=.6]{$0$};
+\draw[line width=.2mm] (0,1.2) -- (-1.5, 2.6);}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Trees for Hendrik
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSymbol{K*2K*2}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (-.5,2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6, 1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (-.6, 1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%\xi
+%   o
+
+\DeclareSymbol{0}{-2.4}{\node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] (A) {};}
+
+
+%K*\xi
+%   o  
+%   | 
+%   .  
+
+\DeclareSymbol{1}{0}{\path (-.4,0) -- (.4,0); \draw[line width=0.2mm] (0,0) -- (0,1.2) 
+node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+%2nd_Wick
+% o   o
+%  \ /
+%   .  
+
+\DeclareSymbol{2}{0}{\path(-.5,0) -- (.5,0); 
+\draw[line width=0.2mm] (0,0) -- (-.4,1.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,0) -- (.4,1.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};} 
+
+\DeclareSymbol{2b}{0}{\path(-.5,0) -- (.5,0); 
+\draw[line width=0.2mm] (0,0) -- (-1,1.8) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,0) -- (1,1.8) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};} 
+
+
+%3rd_Wick
+% o o  o
+%  \| /
+%   .  
+
+\DeclareSymbol{3}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm] (0,0) -- (0,1.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,0) -- (-.6,1.15)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,0) -- (.6,1.15)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+%K*K*xi
+% o  
+%  \ 
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{K*1}{0}{\path (-.5,0) -- (.5,0); 
+\draw[line width=0.2mm] (0,0) -- (0,.6);
+\draw[line width=0.2mm] (0,.6) -- (-.4, 1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+%K*K*xi
+% o  
+%  \ 
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{k*1}{0}{\path (-.5,0) -- (.5,0); 
+\draw[line width=0.5mm] (0,0) -- (0,.6);
+\draw[line width=0.2mm] (0,.6) -- (-.4, 1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+%K*2nd_Wick
+% o    o
+%  \  /
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{K*2}{0}{\path (-.5,0) -- (.5,0); 
+\draw[line width=0.2mm] (0,0) -- (0,.6);
+\draw[line width=0.2mm] (0,.6) -- (-.4, 1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,.6) -- (.4,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+%K*3rd_Wick
+% o o  o
+%  \| /
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{K*3}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=0.2mm] (0,0) -- (0,.6);
+\draw[line width=0.2mm] (0,.6) -- (0,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,.6) -- (-.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+\DeclareSymbol{K*3b}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.2, 1.2)node[above, right, scale=.6] {$0$};
+\draw[line width=.2mm] (0,0) -- (-1.2, 1.2)node[above, left, scale=.6] {$0$};}
+
+\DeclareSymbol{K*3one}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[above,scale=.6] {$0$};
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+
+
+\DeclareSymbol{K*3bAS}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (-1.2,1.4);
+\draw[line width=.2mm] (-1.2,1.4) -- (-1.2,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.2,1.4) -- (-2.2,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.2,1.4) -- (0,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (0, 1)node[above, scale=.6] {$0$};
+\draw[line width=.2mm] (0,0) -- (1.2, 1)node[above, scale=.6] {$0$};}
+
+\DeclareSymbol{K*2Xb}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,2.8)node[above,scale=.6] {$i$};
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.2, 1.2)node[above, right, scale=.6] {$0$};
+\draw[line width=.2mm] (0,0) -- (-1.2, 1.2)node[above, left, scale=.6] {$0$};}
+
+\DeclareSymbol{K*3b11}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,2.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.2, 1.2)node[above, right, scale=.6] {$0$};
+\draw[line width=.2mm] (0,0) -- (-1.2, 1.2)node[above, left, scale=.6] {$0$};}
+
+
+
+
+%1st_Wick\times_K*3rd_Wick
+% o o  o
+%  \| /
+%   .  o
+%   | /
+%   .
+
+\DeclareSymbol{1K*3}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (-.5,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.5,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+%%%%%Augustin: I add the symbols I need, with cut-offs and polynomials%%%%%%
+
+%1st_Wick\times_K*2nd_Wick
+% o    o
+%  \  /
+%   .  o
+%   | /
+%   .
+
+\DeclareSymbol{1K*2}{0}{\path (-.6,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (-.5,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.5,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+%2nd_Wick\times_K*2nd_Wick
+% o    o
+%  \  /
+% o .  o
+%  \| /
+%   .
+
+\DeclareSymbol{2K*2}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (-.5,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.5,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6, .7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+%2nd_Wick\times_K*K*xi
+% o   
+%  \  
+% o .  o
+%  \| /
+%   .
+
+\DeclareSymbol{2K*1}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (-.5,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6, .7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+
+%2nd_Wick\times_K*3rd_Wick
+% o o  o
+%  \| /
+% o .  o
+%  \| /
+%   .
+
+\DeclareSymbol{2K*3}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (-.5,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (0,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.5,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+% o o  o
+%  \| /
+% o .  o
+%  \| /
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{K*(2K*3)}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (0,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (-.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (-.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+% o    o
+%  \  /
+% o .  o
+%  \| /
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{K*(2K*2)}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (-.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (-.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+
+% o o  o
+%  \| /
+% o .  
+%  \| 
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{K*(1K*3)}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (0,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (-.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+% o o  o
+%  \| /
+% o .  
+%  \| 
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{k*(1K*3)}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.5mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (0,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (-.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+%2nd_Wick\times_K*2nd_Wick\times_K*3rd_Wick
+% o o  o
+%  \| /
+% o .  o
+%  \| /
+% o .  
+%  \| 
+%   .
+
+\DeclareSymbol{1K*(2K*3)}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (0,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (-.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (-.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+%2nd_Wick\times_K*2nd_Wick\times_K*3rd_Wick
+% o o  o
+%  \| /
+% o .  o
+%  \| /
+% o .  o
+%  \| /
+%   .
+
+\DeclareSymbol{2K*(2K*3)}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (0,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (-.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (-.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+% o o  o
+%  \| /
+% o .  o
+%  \| /
+% o .  o
+%  \| /
+%   .
+%   |
+
+\DeclareSymbol{K*(2K*(2K*3))}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,1.6);
+\draw[line width=.2mm] (0,1.6) -- (0,2.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (-.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (-.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (-.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+\DeclareSymbol{k*(2K*(2K*3))}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.5mm] (0,0) -- (0,0.4);
+\draw[line width=.2mm] (0,0.4) -- (0,1.6);
+\draw[line width=.2mm] (0,1.6) -- (0,2.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (-.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (-.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (-.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+% o o  o
+%  \| /
+% o .  o
+%  \| /
+% o .  o
+%  \| /
+% o .  o
+%  \| /
+%   .
+
+\DeclareSymbol{2K*(2K*(2K*3))}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,1.6);
+\draw[line width=.2mm] (0,1.6) -- (0,2.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (-.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (-.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (-.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, 0.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6,0.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+% o    o
+%  \  /
+% o .  o
+%  \| /
+% o .  o
+%  \| /
+% o .  o
+%  \| /
+%   .
+
+\DeclareSymbol{2K*(2K*(2K*2))}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,1.6);
+\draw[line width=.2mm] (0,1.6) -- (-.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (-.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (-.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, 0.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6,0.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+% o    o
+%  \  /
+% o .  o
+%  \| /
+% o .  o
+%  \| /
+%   .  
+%   | 
+%   .
+
+\DeclareSymbol{K*(2K*(2K*2))}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,1.6);
+\draw[line width=.2mm] (0,1.6) -- (-.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (-.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (-.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+\DeclareSymbol{k*(2K*(2K*2))}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.5mm] (0,0) -- (0,0.4);
+\draw[line width=.2mm] (0,0.4) -- (0,1.6);
+\draw[line width=.2mm] (0,1.6) -- (-.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.6) -- (.5,2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (-.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1) -- (.6,1.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.4) -- (-.6, 1)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+%2nd_Wick\times_K*2nd_Wick\times_K*3rd_Wick
+% o o  o
+%  \| /
+% o .  
+%  \| 
+% o .  o
+%  \| /
+%   .
+
+\DeclareSymbol{2K*(1K*3)}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (0,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (-.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+%2nd_Wick\times_K*2nd_Wick\times_K*2nd_Wick
+% o    o
+%  \  /
+% o .  o
+%  \| /
+% o .  o
+%  \| /
+%   .
+
+\DeclareSymbol{2K*(2K*2)}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6);
+\draw[line width=.2mm] (0,.6) -- (0,1.2);
+\draw[line width=.2mm] (0,1.2) -- (-.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,1.2) -- (.5,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (-.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.6,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6, .6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+%ou\times_(K*3rd_Wick)^2
+% o o  o o o  o
+%  \| /   \| /
+%   .  o   .
+%    \ |  /
+%      .
+
+\DeclareSymbol{1K*3K*3}{0}{\path (-1.2,0) -- (1.2,0);
+\draw[line width=.2mm] (0,0) -- (0,.6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.6,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.6,.6) -- (.6,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.6,.6) -- (1.05,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-1.05,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-.6,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6);
+\draw[line width=.2mm] (0,0) -- (-.6, .6);}
+
+%ou\times_(K*3rd_Wick)\times_(K*2n_Wick)
+% o o  o o   o
+%  \| /   \ /
+%   .  o   .
+%    \ |  /
+%      .
+
+\DeclareSymbol{1K*3K*2}{0}{\path (-1.2,0) -- (1.2,0);
+\draw[line width=.2mm] (0,0) -- (0,.6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.6,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.6,.6) -- (1.05,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-1.05,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-.6,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6);
+\draw[line width=.2mm] (0,0) -- (-.6, .6);}
+
+%(K*3rd_Wick)\times_(K*2n_Wick)
+% o o  o o   o
+%  \| /   \ /
+%   .     .
+%    \   /
+%      .
+
+\DeclareSymbol{K*3K*2}{0}{\path (-1.2,0) -- (1.2,0);
+\draw[line width=.2mm] (.6,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.6,.6) -- (1.05,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-1.05,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-.6,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6);
+\draw[line width=.2mm] (0,0) -- (-.6, .6);}
+
+
+%ou\times_(K*3rd_Wick)^2
+% o o  o o o  o
+%  \| /   \| /
+%   .      .
+%    \    /
+%      .
+
+\DeclareSymbol{K*3K*3}{0}{\path (-1.2,0) -- (1.2,0);
+\draw[line width=.2mm] (.6,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.6,.6) -- (.6,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.6,.6) -- (1.05,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-1.05,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-.6,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.6,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .6);
+\draw[line width=.2mm] (0,0) -- (-.6, .6);}
+
+
+%2nd_Wick x
+% o   o
+%  \ /
+%   x  
+
+\DeclareSymbol{2x}{0}{\path(-.5,0) -- (.5,0); 
+\draw[line width=0.2mm] (0,0) -- (-.4,1.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,0) node[right, scale=.3] {$X$} -- (.4,1.2) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};} 
+
+%K*2nd_Wick x
+% o   o
+%  \ /
+%   x 
+%   |
+
+
+\DeclareSymbol{K*2x}{0}{\path (-.5,0) -- (.5,0); 
+\draw[line width=0.2mm] (0,0) -- (0,.6)node[above, scale=.3] {$X$};
+\draw[line width=0.2mm] (0,.6) -- (-.4, 1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,.6) -- (.4,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+\DeclareSymbol{k*2x}{0}{\path (-.5,0) -- (.5,0); 
+\draw[line width=0.5mm] (0,0) -- (0,.6)node[above, scale=.3] {$X$};
+\draw[line width=0.2mm] (0,.6) -- (-.4, 1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=0.2mm] (0,.6) -- (.4,1.4) node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+
+%ou^2 K*2nd_Wick x
+% o   o
+%  \ /
+% o x o
+%  \|/
+%   .
+
+\DeclareSymbol{2K*2x}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,.6)node[above, scale=.3] {$X$};
+\draw[line width=.2mm] (0,.6) -- (-.5,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,.6) -- (.5,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.6, .7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.6, .7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};}
+
+\DeclareSymbol{2K*2Xi}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1.2,2.6)node[above, scale=.6] {$\ i$};;
+\draw[line width=.2mm] (0,0) -- (1.2, 1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (-1.2, 1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+\DeclareSymbol{2K*2XiAS}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[above, scale=.6] {$\ i$};;
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1.2,2.6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.2, 1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (-1.2, 1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+\DeclareSymbol{2K*2OAS}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[above, scale=.6] {$\ 0$};;
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1.2,2.6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.2, 1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (-1.2, 1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+%2nd_Wick\times_K*2nd_Wick\times_K*3rd_Wick
+% o o  o  o o  o
+%  \| /    \| /
+% o .  o  o .  o
+%  \| /    \| /
+%   .  o   .
+%    \ |  /
+%      .
+
+\DeclareSymbol{1K*(2K*3)K*(2K*3)}{0}{\path (-1.35,0) -- (1.35,0);
+\draw[line width=.2mm] (0,0) -- (0,.6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.65,.6);
+\draw[line width=.2mm] (-.65,.6) -- (-.65,1.2);
+\draw[line width=.2mm] (-.65,1.2) -- (-.65,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-1.15,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-.2,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.65,.6);
+\draw[line width=.2mm] (.65,.6) -- (.65,1.2);
+\draw[line width=.2mm] (.65,1.2) -- (.65,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,1.2) -- (1.15,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,1.2) -- (.2,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+}
+
+%
+% o o  o  o o  o
+%  \| /    \| /
+% o .  o  o .  o
+%  \| /    \| /
+%   .      .
+%    \    /
+%      .
+
+\DeclareSymbol{K*(2K*3)K*(2K*3)}{0}{\path (-1.35,0) -- (1.35,0);
+\draw[line width=.2mm] (0,0) -- (-.65,.6);
+\draw[line width=.2mm] (-.65,.6) -- (-.65,1.2);
+\draw[line width=.2mm] (-.65,1.2) -- (-.65,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-1.15,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-.2,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.65,.6);
+\draw[line width=.2mm] (.65,.6) -- (.65,1.2);
+\draw[line width=.2mm] (.65,1.2) -- (.65,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,1.2) -- (1.15,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,1.2) -- (.2,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+}
+
+
+% o o  o  
+%  \| /   
+% o .  o  o o  o
+%  \| /    \| /
+%   .  o   .
+%    \ |  /
+%      .
+
+\DeclareSymbol{1K*(2K*3)K*3}{0}{\path (-1.35,0) -- (1.35,0);
+\draw[line width=.2mm] (0,0) -- (0,.6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.65,.6);
+\draw[line width=.2mm] (-.65,.6) -- (-.65,1.2);
+\draw[line width=.2mm] (-.65,1.2) -- (-.65,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-1.15,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-.2,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.65,.6);
+\draw[line width=.2mm] (.65,.6) -- (.65,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+}
+
+% o o  o  
+%  \| /   
+% o .  o  o o  o
+%  \| /    \| /
+%   .      .
+%    \    /
+%      .
+
+\DeclareSymbol{K*(2K*3)K*3}{0}{\path (-1.35,0) -- (1.35,0);
+\draw[line width=.2mm] (0,0) -- (-.65,.6);
+\draw[line width=.2mm] (-.65,.6) -- (-.65,1.2);
+\draw[line width=.2mm] (-.65,1.2) -- (-.65,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-1.15,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-.2,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.65,.6);
+\draw[line width=.2mm] (.65,.6) -- (.65,1.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+}
+
+% o o  o  
+%  \| /   
+% o .  o  o   o
+%  \| /    \ /
+%   .  o   .
+%    \ |  /
+%      .
+
+\DeclareSymbol{1K*(2K*3)K*2}{0}{\path (-1.35,0) -- (1.35,0);
+\draw[line width=.2mm] (0,0) -- (0,.6)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (-.65,.6);
+\draw[line width=.2mm] (-.65,.6) -- (-.65,1.2);
+\draw[line width=.2mm] (-.65,1.2) -- (-.65,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-1.15,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-.2,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.65,.6);
+\draw[line width=.2mm] (.65,.6) -- (1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+}
+
+% o o  o  
+%  \| /   
+% o .  o  o   o
+%  \| /    \ /
+%   .     .
+%    \   /
+%      .
+
+\DeclareSymbol{K*(2K*3)K*2}{0}{\path (-1.35,0) -- (1.35,0);
+\draw[line width=.2mm] (0,0) -- (-.65,.6);
+\draw[line width=.2mm] (-.65,.6) -- (-.65,1.2);
+\draw[line width=.2mm] (-.65,1.2) -- (-.65,1.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-1.15,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,1.2) -- (-.2,1.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (-.65,.6) -- (-.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (0,0) -- (.65,.6);
+\draw[line width=.2mm] (.65,.6) -- (1.25,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+\draw[line width=.2mm] (.65,.6) -- (.2,1.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=1.8pt] {};
+}
+
+\DeclareSymbol{K*31b}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (-0.9,2.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (.9,2.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.7, 1.2);
+\draw[line width=.2mm] (1.7, 1.2) -- (1.5, 2.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.7, 1.2) -- (2.2, 2.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.7, 1.2) -- (2.8, 2.1)node[scale=.6] {$\quad i$};
+%node[above, right, scale=.6] {$0$};
+\draw[line width=.2mm] (0,0) -- (-1.7, 1.2);
+\draw[line width=.2mm] (-1.7, 1.2) -- (-1.5, 2.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.2, 2.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.8, 2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+%node[above, left, scale=.6] {$0$};}
+
+\DeclareSymbol{K*31b0}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (-0.9,2.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (.9,2.9)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.7, 1.2);
+\draw[line width=.2mm] (1.7, 1.2) -- (1.5, 2.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.7, 1.2) -- (2.2, 2.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (1.7, 1.2) -- (2.8, 2.1)node[scale=.6] {$\quad 0$};
+%node[above, right, scale=.6] {$0$};
+\draw[line width=.2mm] (0,0) -- (-1.7, 1.2);
+\draw[line width=.2mm] (-1.7, 1.2) -- (-1.5, 2.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.2, 2.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.8, 2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+%node[above, left, scale=.6] {$0$};}
+
+\DeclareSymbol{K*2Xb1}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.2, 1.2)node[above, right, scale=.6] {$i$};
+\draw[line width=.2mm] (0,0) -- (-1.7, 1.2);
+\draw[line width=.2mm] (-1.7, 1.2) -- (-1.5, 2.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.2, 2.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.8, 2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+\DeclareSymbol{K*2Xb1z}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.2, 1.2)node[above, right, scale=.6] {$0$};
+\draw[line width=.2mm] (0,0) -- (-1.7, 1.2);
+\draw[line width=.2mm] (-1.7, 1.2) -- (-1.5, 2.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.2, 2.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.8, 2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+\DeclareSymbol{K*2Xb1j}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (-1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,1.4) -- (1,2.8)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1.2, 1.2)node[above, right, scale=.6] {$j$};
+\draw[line width=.2mm] (0,0) -- (-1.7, 1.2);
+\draw[line width=.2mm] (-1.7, 1.2) -- (-1.5, 2.4)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.2, 2.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (-1.7, 1.2) -- (-2.8, 2.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+\DeclareSymbol{3b}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm] (0,0) -- (0,1.7) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,0) -- (-1.2,1.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,0) -- (1.2,1.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+\DeclareSymbol{K*3b}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm] (0,0) -- (0,2.5) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,1) -- (-1,2.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,1) -- (1,2.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+
+
+
+\DeclareSymbol{3bi}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm] (0,0) -- (0,1.7) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,0) -- (-1.2,1.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,0) -- (1.2,1.5)node[right,scale=.6] {$i$};}
+
+\DeclareSymbol{3b1}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm] (0,0) -- (0,1.7) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,0) -- (-1.2,1.5)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,0) -- (1.2,1.5)node[right,scale=.6] {$0$};}
+
+\DeclareSymbol{K*3bi}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm] (0,0) -- (0,2.5) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,1) -- (-1,2.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,1) -- (1,2.3)node[right,scale=.6] {$i$};}
+
+
+%Derivative of planted trees
+\DeclareSymbol{Kj*3bi}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm](0,0) -- (0,0.4) node[right,scale=.6]{$j$};
+\draw[line width=0.2mm]  (0,0.4) -- (0,2.5) node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,1) -- (-1,2.3)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=0.2mm] (0,1) -- (1,2.3)node[right,scale=.6] {$i$};}
+
+\DeclareSymbol{Ki*Xj}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm](0,0) -- (0,.8) node[right,scale=.6]{$i$};
+\draw[line width=0.2mm]  (0,.8) -- (0,1.7) node[above,scale=.6] {$j$};}
+
+\DeclareSymbol{Ki*Xi}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm](0,0) -- (0,.8) node[right,scale=.6]{$i$};
+\draw[line width=0.2mm]  (0,.8) -- (0,1.7) node[above,scale=.6] {$i$};}
+
+\DeclareSymbol{K*one}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm](0,0) -- (0,1.7) node[above,scale=.6] {$0$};}
+
+\DeclareSymbol{K*Xi}{0}{\path (-.7,0) -- (.7,0); 
+\draw[line width=0.2mm](0,0) -- (0,1.7) node[above,scale=.6] {$i$};}
+
+
+
+\DeclareSymbol{2K*1b}{0}{\path (-.7,0) -- (.7,0);
+\draw[line width=.2mm] (0,0) -- (0,1.4);
+\draw[line width=.2mm] (0,1.4) -- (-1.2,2.7)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (1, 1.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};
+\draw[line width=.2mm] (0,0) -- (-1, 1.2)node[circle, fill, draw, solid, inner sep=0pt, minimum size=2.5pt] {};}
+\endinput
