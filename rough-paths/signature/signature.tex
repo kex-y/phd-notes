@@ -1,0 +1,252 @@
+\documentclass[]{article}
+\usepackage{amssymb,amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[T1]{fontenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={Notes on Signature Transform},
+  pdfauthor={Kexing Ying},
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Maroon,
+  urlcolor=Maroon}
+\usepackage{xcolor}
+\usepackage[margin = 1.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{physics}
+\usepackage{amsthm}
+\usepackage{titling}
+\usepackage{mathtools}
+\usepackage{authblk}
+\usepackage{todonotes}
+\usepackage{shuffle}
+
+\setlength{\parindent}{0pt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{example}{Example}[section]
+
+\let\phi\varphi
+\def\<{\left\langle}
+\def\>{\right\rangle}
+\newcommand{\pvar}{{p\text{-var}}}
+
+\setlength{\parskip}{3pt}
+
+\begin{document}
+\title{Notes on Signature Transform}
+\author{Kexing Ying}
+\maketitle
+
+We introduce the following notations:
+\begin{itemize}
+  \item For \(p \ge 1\), \(a < b \in \mathbb{R}_+\) and \(V\) a normed space, denote 
+    \(C^\pvar_0([a, b], V)= C^\pvar_0\) for the space of functions \(x\) with finite \(p\)-variation 
+    and is such that \(x_0 = 0\). We omit the \(0\) subscript from the notation in the case the 
+    latter condition is removed. When \(p = 1\), we simply write \(C^1\).
+  \item For \(V\) a vector space, denote \(T(V) = \bigoplus_{k = 0}^\infty V^{\otimes k}\) and 
+    \(T((V)) = \prod_{k = 0}^\infty V^{\otimes k}\). \(T(V)\) is referred to as the tensor algebra 
+    while \(T((V))\) is referred to as the extended tensor algebra. Note that \(T(V)\) can be viewed 
+    as a subspace of \(T((V))\) for which all but finitely may terms are zero.
+  \item We use the concise notation \(v_1v_2 = v_1 \cdot v_2\) for the tensor product \(v_1 \otimes v_2\) 
+    whenever there is no ambiguity.
+\end{itemize}
+
+In the case \(p \in [1, 2)\), using the theory of Young integration, we can define iterated integrals 
+of the form 
+\[S(x)_{[a, b]}^{(n)} := \int_{0 < t_1 < \cdots < t_n < T} \dd x_{t_1} \cdots \dd x_{t_n}.\]
+\begin{definition}
+  The signature transform (ST) is the mapping \(S = S_{[a, b]} : C^\pvar([a, b], V) \to T((V))\) defined by
+  \[S(x) = S(x)_{[a, b]} = \left(1,\ S(x)_{[a, b]}^{(1)},\ S(x)_{[a, b]}^{(2)},\ \dots\right).\]
+  Moreover, we define the truncated signature transform (TST) \(S_n(x) = S_n(x)_{[a, b]} \in T(V)\) by 
+  simply setting all but the first \(n + 1\) terms to zero, i.e. the last non-zero term is \(S(x)_{[a, b]}^{(n)}\).
+\end{definition}
+
+The signature occurs naturally in the context of controlled differential equations. Suppose \(x \in C^\pvar\)
+for some \(p \in [1, 2)\) and \(T(y) : V \to V\) is a linear map. Then, performing Picard iteration on 
+the differential equation \(\dd y_t = T(y_t) \dd x_t\) with initial condition \(y_0\):
+\[y^{(0)}_t = y_0,\ y_t^{(k + 1)} = y_0 + \int_0^t T(y^{(k)}) \dd x_t,\]
+it is easy to see by induction that 
+\[y_t^{(k)} = \sum_{i = 0}^k T^{\otimes i}(y_0) S(x)^{(i)}_{[0, t]}\]
+where \(T^{\otimes i}(y)\) denotes the \(i\)-fold multilinear map defined by 
+\[T^{\otimes 0}(y) = y,\ T^{\otimes (k + 1)}(y)(v_1, \dots, v_{k + 1}) = T(T^{\otimes k}(y)(v_1, \dots, v_k))(v_{k + 1}).\]
+
+\begin{theorem}
+  The signature transform is invariant under reparametrization, i.e. for \(x \in C^\pvar([a, b], V)\), 
+  \(\lambda : [c, d] \to [a, b]\) a continuous, monotone surjection, \(S(x)_{[a, b]} = S(x \circ \lambda)_{[c, d]}\).
+\end{theorem}
+
+\begin{definition}
+  For \(x \in C^1\), we define the reparametrization of \(x\) with constant speed \(x^*\) to be the path 
+  \(x^* = x \circ \lambda : [0, \|x\|_1] \to V\) where 
+  \[\lambda(t) := \inf \{s \ge a: \|x\|_{1; [a, s]} > t\}.\]
+  As a consequence of the above proposition, \(S(x) = S(x^*)\).
+\end{definition}
+
+\begin{definition}
+  For \(x \in C^\pvar([a, b]), y \in C^\pvar([b, c])\), we define the concatenation of \(x\) and \(y\) to be
+  the path \(x * y \in C^\pvar([a, c])\) defined by
+  \[(x * y)_t = \begin{cases}
+    x_t & t \in [a, b),\\
+    y_t - y_b + x_b & t \in [b, c].
+  \end{cases}\]
+\end{definition}
+
+\begin{theorem}[Chen's relation]
+  For \(x \in C^\pvar([a, b]), y \in C^\pvar([b, c])\), \(S(x * y) = S(x)S(y)\).
+\end{theorem}
+
+Chen's relation is incredibly useful in actual computations. Suppose we observe a time series 
+\({(t_i, x_i)}_{i = 1}^n\) and by linear interpolation, we obtain a path \(\gamma \in C^1([0, 1], V)\). 
+We would like to compute the signature of \(\gamma\). 
+
+Let us first compute the signature of a linear path. Suppose \(x_a, v \in V\) and 
+\(x_t = x_a + \frac{t - a}{b - a}v\). Then, we can compute 
+\[S(x)_{[a, b]}^{(k)} = \frac{v^{\otimes k}}{(b - a)^k} \int_{a < t_1 < \cdots < t_k < b} \dd t_1 \cdots \dd t_k 
+  = \frac{v^{\otimes k}}{k!}.\]
+Thus, \(S(x) = \exp_{\otimes}(v) = \sum_{i = 0}^\infty \frac{1}{k!}v^{\otimes i}\). 
+
+Now, going back to \(\gamma\). As \(\gamma\) is the concatenation of linear paths of the form 
+\(x_t^i : [t_i, t_{i + 1}] \to V\), it follows by Chen's relation that 
+\[S(\gamma)_{[t_1, t_n]} = \exp_{\otimes}(x_2 - x_1) \otimes \cdots \otimes \exp_{\otimes}(x_n - x_{n - 1}).\]
+
+Consider now the ordinary differential equation \(\dd y = y \dd x\) which has solution \(y = y_0 e^x\). 
+In the context of controlled differential equations, as indicated by the linear case, the signature 
+plays the role of the exponential function. In particular, we have the following theorem.
+
+\begin{theorem}[CDE formulation of ST]
+  Let \(x \in C^\pvar\) for some \(p \in [1, 2)\) and \(E \subseteq T((V))\) be a Banach subalgebra 
+  containing \(\mathsf{S}_p := S(C^\pvar)_{[a, b]} \subseteq T((V))\). Then, for any \(y \in E\), 
+  \(y_t := y S(x)_{[a, t]}\) is the unique solution to the controlled differential equation
+  \[\dd y_t = y_t \dd x_t \text{ with } y_0 = y.\]
+\end{theorem}
+
+\begin{definition}
+  For \(x \in C^\pvar\), define the time reversal of \(x\) to be \(\overleftarrow{x}\) defined by 
+  \[\overleftarrow{x}_t = x_{a + b - t} \text{ for all } t \in [a, b].\]
+\end{definition}
+
+Via the CDE formulation of the signature transform, it is easy to see that the time reversal of a path
+inverts the signature of said path.
+
+\begin{proposition}
+  For \(x \in C^\pvar\), \(S(\overleftarrow{x}) S(x) = S(x) S(\overleftarrow{x}) = 1\).
+\end{proposition}
+
+\begin{definition}
+  Define the shuffle operation \(\shuffle : T(V) \times T(V) \to T(V)\) by
+  \begin{itemize}
+    \item for \(f \in V\) and \(r \in \mathbb{R}\), \(f \shuffle r = r \shuffle f = rf\),
+    \item for \(f = f_{-} \otimes a \in V^{\otimes k}, g = g_{-} \otimes b \in V^{\otimes l}\),
+      \[f \shuffle g = (f_{-} \shuffle g) \otimes a + (f \shuffle g_{-}) \otimes b.\]
+  \end{itemize}
+\end{definition}
+
+For \(x\) differentiable and \(f, g \in V^*\), we observe by the integration by parts formula that 
+\[f(x_{ab})g(x_{ab}) = \int_a^b f(x_{as}) \dd g(x_s) + \int_a^b g(x_{as})\dd f(x_s)\]
+where we have denoted \(x_{at} := x_t - x_a\). Thus, by observing 
+\[\<f, S(x)^{(1)}_{[a, b]}\> = f\left(\int_a^b \dd x_s\right) = f(x_{ab})\]
+and moreover, as \(f \shuffle g = g \otimes f + f \otimes g\), we have
+\begin{align*}
+  \<f \shuffle g, S(x)^{(2)}_{[a, b]}\> & = 
+  \<g \otimes f, \int_a^b \int_a^s \dd x_r \otimes \dd x_s\>
+  + \<f \otimes g, \int_a^b \int_a^s \dd x_r \otimes \dd x_s\>\\ 
+  & = \int_a^b g(x_{as})\dd f(x_s) + \int_a^b f(x_{as}) \dd g(x_s).
+\end{align*}
+Thus, the above equality can be alternatively written as 
+\[\<f \shuffle g, S(x)^{(2)}_{[a, b]}\> = \<f, S(x)^{(1)}_{[a, b]}\>\<g, S(x)^{(1)}_{[a, b]}\>.\]
+
+\begin{theorem}[Shuffle identity]
+  For \(x \in C^\pvar\) where \(p \in [1, 2)\) and \(f, g \in T((V))^*\), we have 
+  \[\<f \shuffle g, S(x)_{[a, b]}\> = \<f, S(x)_{[a, b]}\>\<g, S(x)_{[a, b]}\>.\]
+\end{theorem}
+
+An important consequence of the shuffle identity is the following proposition.
+\begin{proposition}
+  \(\mathsf{S}_p\) is linearly independent in \(T((V))\).
+\end{proposition}
+
+We are interested in the question "to what extent does the signature determine a path on \(C^\pvar_0\)". It is clear 
+that the signature does not determine the path completely as we saw that, for \(x \in C^\pvar_0\), 
+\[S(x * \overleftarrow{x}_{\cdot + (b - a)}) = S(x) S(\overleftarrow{x}_{\cdot + (b - a)}) = S(x)S(\overleftarrow{x}) = 1\] 
+while \(x * \overleftarrow{x}_{\cdot + (b - a)}\) is not the constant path for any non-constant \(x\).
+
+In the finite dimensional case, one can show that any two paths which agrees on a one dimensional 
+projection and have the same signature must be the same path. T
+
+By defining the equivalence relation on \(C^\pvar_0\) by \(S(x) = S(y)\), one can view \(\mathsf{S}_p\) 
+as a quotient of \(C^\pvar_0\). We introduce some terminologies for dealing with this quotient.
+\begin{itemize}
+  \item We call \(\mathsf{S}_p\) the space of \textit{unparametrized paths}.
+  \item For any \(x \in C^\pvar_0\), we denote \([x] \in \mathsf{S}_p\) for the 
+    equivalence class containing \(x\) under this equivalence relation. 
+  \item For \(x \in C^\pvar_0\) with \(x = [1]\), we refer to \(x\) as a \textit{tree like path}.
+  \item For \(x \in C^\pvar_0\), we call \(\|x\|_{\pvar}\) its \textit{length} and we say \(x\) 
+    is tree reduced if \(\|x\|_{\pvar} = \inf_{x' \in [x]} \|x'\|_{\pvar}\).
+\end{itemize}
+
+For \(p = 1\), there exists a unique (up to reparametrization) tree reduced path in each equivalence class.
+
+Since by Chen's relation, the signature of a concatenated path is only dependent on the signature of 
+its constituents, concatenation can be lifted to the quotient space. It is easy to see that 
+\(\mathsf{S}_p\) forms a group with this operation.
+
+\begin{definition}
+  For any \(f \in T((V))^*\), define \(\Phi_f : \mathsf{S}_p \to \mathbb{R}\) by 
+  \[\Phi_f([x]) = \<f, S(x)\>.\]
+\end{definition}
+
+\begin{proposition}
+  The set \(\Phi_{T((V))^*} = \{\Phi_f : f \in T((V))^*\}\) is a unital subalgebra of \(\mathbb{R}^{\mathsf{S}_p}\) 
+  which separates points.
+\end{proposition}
+
+Consequently, by Stone-Weierstrass, if \(\mathsf{S}_p\) is equipped with a topology for which 
+\(K \subseteq \mathsf{S}_p\) is a compact subset, and \(\Phi_{T((V))^*}|_K = \{\Phi_{f|_K} : f \in T((V))^*\} 
+\subseteq C(K, \mathbb{R})\), then it is dense (with respect to \(\|\cdot\|_\infty\)). 
+This type of result is referred to as \textit{uniform approximation with signatures}.
+
+For \(x \in C^\pvar_0\) and some vector field \(f(y) : V \to V\), we define the It\^o-Lyons map 
+\[\Phi : x \mapsto y, \text{ such that } \dd y_t = f(y_t) \dd x_t \text{ with initial condition } y_a.\]
+We are interested in whether or not we can lift \(\Phi\) through the quotient so that it is instead 
+of a map from \(\mathsf{S}_p\). We will assume \(f \in C^\infty\) and \(p = 1\). Moreover, 
+suppose that there exists some \(C > 0\) such that for all \(k \in \mathbb{N}\), 
+\(\|f^{(k)}\|_\infty \le C^k\).
+
+\begin{proposition}[Factorial decay of the signature]
+  For \(x \in C^1\) and \(k \in \mathbb{N}\),
+  \[\|S(x)^{(k)}\|_{V^{\otimes k}} \le \frac{1}{k!}\|x\|_1^k.\]  
+\end{proposition}
+
+Let \(y\) be the solution of the CDE \(\dd y_t = f(y_t) \dd x_t \text{ with initial condition } y_a\),
+we define 
+\[y^N_t = y_a + \sum_{k = 1}^N f^{(k)}(y_a) S(x)^{(k)}.\]
+Then, by induction and Taylor theorem, it is easy to see that 
+\[y_t = y_t^N + \int_{a < t_1 < \cdots < t_{N + 1} < t}f^{(N + 1)}(y_{t_1}) \dd x_{t_1} \cdots \dd x_{t_{N + 1}}.\]
+Thus, by the factorial decay of the signature, it follows that
+\[\|y_t - y_t^N\| 
+  = \left\|\int_{a < t_1 < \cdots < t_{N + 1} < t}f^{(N + 1)}(y_{t_1}) \dd x_{t_1} \cdots \dd x_{t_{N + 1}}\right\|
+  \le \frac{C^{N + 1}}{(N + 1)!}\|x\|^{N + 1}_1 \to 0\]
+as \(N \to \infty\). Hence, as \(y^N\) is uniquely determined by the signature of \(x\) and the 
+initial condition, it follows that \(\Phi\) is invariant over any equivalence class and we may lift it 
+to a map on \(\mathsf{S}_p\).
+
+
+
+
+\end{document}
