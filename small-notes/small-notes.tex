@@ -1,0 +1,142 @@
+\documentclass[]{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[margin = 1.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{physics}
+\usepackage{amsthm}
+\usepackage{titling}
+\usepackage{mathtools}
+\usepackage{authblk}
+\usepackage{todonotes}
+\setlength{\parindent}{0pt}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}{Assumption}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{example}{Example}[section]
+
+\let\phi\varphi
+\let\theta\vartheta
+\let\epsilon\varepsilon
+\let\emptyset\varnothing
+\def\pvar{p\mathrm{\text{-}var}}
+
+\setlength{\parskip}{3pt}
+
+\begin{document}
+\title{}
+\author{}
+\maketitle
+
+\section*{\(p\)-Variation vs \(\alpha\)-H\"older Continuity}
+
+For \(\alpha \in (0, 1]\) and \(\gamma \in \mathcal{C}^\alpha([0, T], V)\), it is well-known that 
+\(\gamma \in \mathcal{C}^{\pvar}([0, T], V)\) for \(p = \alpha^{-1}\) and 
+\[\|\gamma\|_{\pvar} \le T^\alpha \|\gamma\|_\alpha.\]
+Moreover, if \(\gamma\) is a continuous path of finite \(p\)-variation for some \(p > 1\), we 
+can reparametrize \(\gamma\) (so that its \(p\)-variation norm grows with constant speed) to 
+obtain a \(p^{-1}\)-H\"older path. In this case, one can make sure that the reparametrized process 
+has unit H\"older norm. 
+
+A question arises on whether or not, starting from a H\"older path, we can bound its corresponding 
+\(p\)-variation norm from below by its H\"older norm. The answer is in general negative. Indeed, 
+philosophically, the H\"older norm is a local property whilst the \(p\)-variation norm is global. 
+Thus, the H\"older norm cannot capture the global behavior of the path and consequently the two 
+norms cannot be equivalent in general. To be more precise, we know that the \(p\)-variation is 
+invariant under reparametrization. Thus, if there exists non-decreasing non-negative function \(f_T\) for which 
+\[f_T(\|\gamma\|_{\alpha}) \le \|\gamma\|_{\pvar},\]
+then, reparametrizing \(\gamma\) by increasing the speed on the interval for which it H\"older norm 
+attains its maximum, and compensating by decreasing the speed on the rest of the interval, the 
+left hand side can be made arbitrarily large whilst keeping the right hand side constant. 
+
+We remark that the above argument cannot be applied to the upper bound. More precisely, we cannot 
+reparametrize a path \(\gamma\) to make its H\"older norm arbitrarily small whilst keeping its 
+domain invariant. 
+
+\section*{Interpolation}
+
+By viewing \(L^\infty\) as \(C^0\) (here \(C^0\) is not the space of continuous paths but the 
+"H\"older space" with 0 H\"older exponents), we expect a interpolation inequality 
+\[L^0 \to L^p \to L^\infty = C^0 \to C^\alpha \to C^k \to C^\infty.\]
+An example of this is from \cite[Lemma A.3]{Hairer:10}:
+\[\|f\|_\infty \le 2 \left(T^{-\frac{1}{2}} \|f\|_{L^2} \vee 
+  \|f\|_{L^2}^{\frac{2\alpha}{2\alpha + 1}} \|f\|_{\alpha}^{\frac{1}{2\alpha + 1}}\right)\]
+for any \(f \in \mathcal{C}^\alpha([0, T])\).
+
+\section*{\(\theta\)-H\"older Roughness and Control of the Gubinelli Derivative}
+
+We have a natural understanding of the H\"older roughness of a path. In particular, although we 
+have the embeddings between H\"older spaces, we do not usually consider a constant path to be 
+a \(\frac{1}{2}\)-H\"older path, nor a Brownian motion to be a \(\frac{1}{3}\)-H\"older path.
+Namely, we would like to work on the boundary of how rough the path is. In the context of rough 
+path theory, working on the boundary guarantees uniqueness of the Gubinelli derivative. 
+
+For simplicity, let us consider the one-dimensional case: Let 
+\((X, \mathbb{X}) \in \mathcal{C}^\alpha([0, T])\) be such that, for some \(s \in [0, T]\), there 
+\[\limsup_{t \to s} \frac{|X_{st}|}{|t - s|^{\theta}} = \infty\]
+for some \(\theta \in (\alpha, 2 \alpha)\). Then, if \((Y, Y') \in \mathcal{D}^\alpha_X\), we have 
+that 
+\[Y'_s = \frac{Y_{st}}{X_{st}} + \frac{R_{st}}{|t - s|^{2\alpha}} \frac{|t - s|^\theta}{X_{st}} |t - s|^{2\alpha - \theta}.\]
+Thus, taking \(t \to s\), we have that \(Y'_s = \liminf_{t \to s} \frac{Y_{st}}{X_{st}} =: \partial_X Y_s\).
+Namely, \(Y'_s\) is uniquely determined by \(X\) and \(Y\).
+
+In general, for a rough path \(\mathbf{X} = (X, \mathbb{X}) \in \mathcal{C}^\alpha([0, T])\) which is \(\theta\)-H\"older rough, 
+denoting \(L_\theta(X)\) for its modulus of \(\theta\)-H\"older roughness, we have the estimate \cite[Proposition 1]{Hairer:10}
+\[L_{\theta}(X)\|Y'\|_{\infty} \lesssim \|Y\|_{\infty}\epsilon^{-\theta} + \|R^Y\|_{2\alpha} \epsilon^{2\alpha - \theta}\]
+for any \((Y, Y') \in \mathcal{D}^\alpha_X\) and \(\epsilon \in (0, \frac{T}{2}]\). Thus, in the case 
+where \((Y, Y') \in \mathcal{D}^\alpha_X\) is \((\mathbf{X}, \phi)\)-coherent, 
+\(\phi(Y), \partial_X \phi(Y), \partial_X^2 \phi(Y) \dots\) 
+can all be controlled by \(Y\) and \(R^Y\):
+\begin{align*}
+  \|\phi(Y)\|_{\infty} & \lesssim 
+    (L_{\theta}(X))^{-1}(\|Y\|_{\infty}\epsilon_0^{-\theta} + \|R^Y\|_{2\alpha} \epsilon_0^{2\alpha - \theta})\\
+  \|\partial_X \phi(Y)\|_{\infty} & \lesssim 
+    (L_{\theta}(X))^{-1}(\|\phi(Y)\|_{\infty}\epsilon_1^{-\theta} + \|R^Y\|_{2\alpha} \epsilon_1^{2\alpha - \theta})\\
+    & \lesssim (L_\theta(X))^{-2} \|Y\|_\infty \epsilon_0^{-\theta} \epsilon_1^{-\theta} + 
+       (L_\theta(X))^{-1} \|R^Y\|_{2\alpha} (((L_\theta(X)))^{-1} \epsilon_1^{-\theta} \epsilon_0^{2\alpha - \theta} 
+        + \epsilon_1^{2\alpha - \theta})\\
+  & \cdots
+\end{align*}
+for small \(\epsilon_0, \epsilon_1, \dots\). We can even bound the H\"older norm of \(\partial_X \phi(Y)\) since 
+\[\|\partial_X \phi(Y)\|_\alpha \le \|R^{\phi(Y)}\|_{2\alpha} T^\alpha + \|X\|_\alpha \|\partial_X^2 \phi(Y)\|_\infty.\]
+Nonetheless, this control is not sufficient for applications in \cite[Section 4.4]{Li:25} where 
+\(\|Y\|_{\infty; I} < R(k + 1)\) for some known constants \(R, k\) no matter what choice of \(\epsilon\) 
+we choose. In particular, for this application, we find that we will need to take \(\epsilon\) large 
+in order to control the term \(\|Y\|_\infty \epsilon^{-\theta}\). This motivates a long range version 
+of \(\theta\)-H\"older roughness: We say \(X\) has \(\theta\)-long range variation if, 
+for every \(s \in \mathbb{R}_+\) and \(r > 1\)
+\[\sup_{|t - s| \le r} |X_{st}| \ge U_\theta(X) r^\theta.\]
+By the same arguments as in \cite{Hairer:13}, the same bound holds assuming long range variation 
+but now we allow for large \(\epsilon > 1\).
+
+It is not difficult to see that a fractional Brownian motion \(B^H\) with Hurst parameter \(H\) satisfies 
+the above definition for any \(\theta < H\). This is in contrast to \(\theta\)-H\"older roughness 
+in which \(B^H\) is \(\theta\)-H\"older rough for any \(\theta > H\). This is unfortunate in the 
+sense that, for applications in \cite{Li:25}, we need \(\theta\)-long range variation for 
+\(\theta > 1 - \alpha\) with \(\alpha\) being the H\"older exponent of the driving rough path which 
+is not possible. Indeed, philosophically, we can already see that these controls cannot improve 
+the result as the assumptions say nothing about \(\phi\).
+
+
+
+\bibliographystyle{alpha}
+\bibliography{refs}
+
+\end{document}
