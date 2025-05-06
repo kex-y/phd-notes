@@ -134,6 +134,53 @@ sense that, for applications in \cite{Li:25}, we need \(\theta\)-long range vari
 is not possible. Indeed, philosophically, we can already see that these controls cannot improve 
 the result as the assumptions say nothing about \(\phi\).
 
+\section*{Computation of the Symbol of the Leray Projector}
+
+Denote \(\mathbb{T}^3 = [0, 2\pi]^3\) the 3-dimensional torus. For each 
+\(k \in \mathbb{Z}^3 \setminus \{0\} =: \mathbb{Z}^3_*\), there exists normal vectors 
+\(\phi_{k, \pm} \in \mathbb{C}^3\) orthogonal to \(k\) such that 
+\[\curl{\phi_{k, \pm} e^{i k \cdot x}} = \pm \|k\| \phi_{k, \pm} e^{ik \cdot x},\]
+i.e. \(\phi_{k, \pm} e^{ik \cdot x}\) is an eigenfunction of the curl operator with eigenvalue 
+\(\pm \|k\|\). It is known that \(\{\phi_{k, \pm} e^{ik \cdot x}\}_{k \in \mathbb{Z}^3_*}\)
+forms an orthonormal basis of \(L_\sigma^2(\mathbb{T}^3)\) (the divergence free subspace of \(L^2\)).
+
+The Leray projector \(P\) is the orthogonal projection from \(L^2\) to \(L_\sigma^2\). 
+
+We want to compute the \(3 \times 3\) matrix \(P(k)\) such that for all \(u \in L^2\), 
+\[Pu = P \sum_{k \in \mathbb{Z}^3_*} u_k e^{ik \cdot x} = \sum_{k \in \mathbb{Z}^3_*} e^{ik \cdot x} P(k) u_k.\]
+By observing that \(\div(u e^{ik \cdot x}) = e^{ik \cdot x} (ik \cdot u)\) for any \(u \in \mathbb{C}^3\), 
+we have that \(u e^{ik \cdot x}\) is divergence free if and only if \(u\) is orthogonal to \(k\) 
+and it is not difficult to see that \(P(u e^{ik \cdot x}) = e^{ik \cdot x} u_k\) where \(u_k\) is the 
+orthogonal projection of \(u\) onto the plane normal to \(k\). Thus, we have that 
+\[P(k)v = v - \frac{k \cdot v}{\|k\|^2}k = \frac{1}{\|k\|^2}\begin{pmatrix}
+  \|k\|^2 - k_1^2 & -k_1 k_2 & -k_1 k_3\\
+  -k_2 k_1 & \|k\|^2 - k_2^2 & -k_2 k_3\\
+  -k_3 k_1 & -k_3 k_2 & \|k\|^2 - k_3^2
+\end{pmatrix}v.\]
+We remark that, denoting \(J\) for the rotation matrix around the \(z\)-axis, and observing that 
+the symbol for the curl operator:
+\[J = \begin{pmatrix}
+  0 & -1 & 0\\
+  1 & 0 & 0\\
+  0 & 0 & 1
+\end{pmatrix}, \
+(\curl)(k) = i\begin{pmatrix}
+  0 & k_3 & -k_2\\
+  -k_3 & 0 & k_1\\
+  k_2 & -k_1 & 0
+\end{pmatrix}\]
+we compute 
+\[S(k) := P(k)JP(k) = i\frac{k_3}{\|k\|^2}(\curl)(k).\]
+Thus, 
+\begin{align*}
+  \frac{t}{\epsilon}S \phi_{k, \pm} e^{ik \cdot x} 
+  & = \frac{t}{\epsilon} e^{ik \cdot x} S(k) \phi_{k, \pm} 
+    = i\frac{t}{\epsilon}\frac{k_3}{\|k\|^2} e^{ik \cdot x} (\curl)(k)\phi_{k, \pm}\\
+  & = i\frac{t}{\epsilon}\frac{k_3}{\|k\|^2} \curl{\phi_{k, \pm} e^{ik \cdot x}} 
+    = \pm i\frac{t}{\epsilon}\frac{k_3}{\|k\|} \phi_{k, \pm} e^{ik \cdot x}
+\end{align*}
+and moreover, \(e^{\frac{t}{\epsilon}S} \phi_{k, \pm} e^{ik \cdot x} 
+  = e^{\pm i\frac{t}{\epsilon}\frac{k_3}{\|k\|}} \phi_{k, \pm} e^{ik \cdot x}\).
 
 
 \bibliographystyle{alpha}
