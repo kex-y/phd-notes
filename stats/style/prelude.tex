@@ -1,0 +1,115 @@
+\mathtoolsset{showonlyrefs=true}
+
+\newif\ifdark
+\IfFileExists{dark}{\darktrue}{\darkfalse}
+
+\ifdark
+
+\definecolor{darkred}{rgb}{0.9,0.2,0.2}
+\definecolor{darkblue}{rgb}{0.7,0.3,1}
+\definecolor{darkgreen}{rgb}{0.1,0.9,0.1}
+\definecolor{pagebackground}{rgb}{.15,.21,.18}
+\definecolor{pageforeground}{rgb}{.84,.84,.85}
+\pagecolor{pagebackground}
+\AtBeginDocument{\globalcolor{pageforeground}}
+
+\else
+
+\definecolor{darkred}{rgb}{0.7,0.1,0.1}
+\definecolor{darkblue}{rgb}{0.4,0.1,0.8}
+\definecolor{darkgreen}{rgb}{0.1,0.7,0.1}
+\definecolor{pagebackground}{rgb}{1,1,1}
+\definecolor{pageforeground}{rgb}{0,0,0}
+
+\fi
+
+% Comments
+\definecolor{newred}{RGB}{208,16,76}
+\definecolor{newgreen}{RGB}{34,125,81}
+\def\zb#1{\comment[newred]{ZB: #1}}
+\def\xr#1{\comment[newgreen]{XR:#1}}
+\long\def\zbtext#1{{\color{newred}ZB:\ #1}}
+\long\def\xrtext#1{{\color{newgreen}XR:\ #1}}
+
+%\DeclarePairedDelimiter{\nint}\lfloor\rceil
+%\DeclarePairedDelimiter{\abs}\lvert\rvert
+
+\makeatletter
+\newcommand{\globalcolor}[1]{%
+	\color{#1}\global\let\default@color\current@color
+}
+\makeatother
+
+\DeclareSymbolFont{timesoperators}{T1}{ptm}{m}{n}
+\SetSymbolFont{timesoperators}{bold}{T1}{ptm}{b}{n}
+
+\makeatletter
+\renewcommand{\operator@font}{\mathgroup\symtimesoperators}
+\makeatother
+
+\DeclareMathAlphabet{\mathbbm}{U}{bbm}{m}{n}
+\overfullrule=3mm
+\marginparwidth=3.3cm
+
+\DeclareFontFamily{U}{BOONDOX-calo}{\skewchar\font=45 }
+\DeclareFontShape{U}{BOONDOX-calo}{m}{n}{
+	<-> s*[1.05] BOONDOX-r-calo}{}
+\DeclareFontShape{U}{BOONDOX-calo}{b}{n}{
+	<-> s*[1.05] BOONDOX-b-calo}{}
+\DeclareMathAlphabet{\mcb}{U}{BOONDOX-calo}{m}{n}
+\SetMathAlphabet{\mcb}{bold}{U}{BOONDOX-calo}{b}{n}
+
+\makeatletter 
+
+% Stolen from the internet to make a fat \cdot which isn't as fat as a \bullet
+\newcommand*{\fat}{}% Check if undefined
+\DeclareRobustCommand*{\fat}{%
+	\mathbin{\mathpalette\bigcdot@{}}}
+\newcommand*{\bigcdot@scalefactor}{.5}
+\newcommand*{\bigcdot@widthfactor}{1.15}
+\newcommand*{\bigcdot@}[2]{%
+	% #1: math style
+	% #2: unused
+	\sbox0{$#1\vcenter{}$}% math axis
+	\sbox2{$#1\cdot\m@th$}%
+	\hbox to \bigcdot@widthfactor\wd2{%
+		\hfil
+		\raise\ht0\hbox{%
+			\scalebox{\bigcdot@scalefactor}{%
+				\lower\ht0\hbox{$#1\bullet\m@th$}%
+			}%
+		}%
+		\hfil
+	}%
+}
+
+\DeclareRobustCommand{\TitleEquation}[2]{\texorpdfstring{\StrLeft{\f@series}{1}[\@firstchar]$\if b\@firstchar\boldsymbol{#1}\else#1\fi$}{#2}}
+
+\makeatother
+
+%\def\newoptest#1{\expandafter\DeclareMathOperator\csname#1\endcsname{#1}}
+%\newoptest{Ciao}
+
+\theoremnumbering{Alph}
+\renewtheorem{theorem*}{Theorem}
+\newtheorem{assumption}[lemma]{Assumption}
+\newtheorem{example}[lemma]{Example}
+\numberwithin{equation}{section}
+
+\def\restr{\mathord{\upharpoonright}}
+\def\slash{\leavevmode\unskip\kern0.18em/\penalty\exhyphenpenalty\kern0.18em}
+\def\dash{\leavevmode\unskip\kern0.18em--\penalty\exhyphenpenalty\kern0.18em}
+
+%%%%%%%%%%%%%%%Notation%%%%%%%%%%%%%%%
+\def\emptyset{{\centernot\Circle}}
+\let\epsilon\varepsilon
+\def\Ito{{\textnormal{\tiny Itô}}}
+\def\${|\!|\!|}
+\def\cst#1{\big(H-{\textstyle {#1\over 2}}\big)}
+\def\RKHS{\normalfont\textsc{rkhs}}
+\setlist{noitemsep,topsep=4pt}
+\def\para_#1{/\!\!/_{\!#1}}
+\def\PPi{\boldsymbol{\Pi}}
+\newcommand{\Anorm}[2]{\| #1 \|^{(2)}_{#2}}
+\newcommand{\Avert}[2]{\|| #1 |\|^{(2)}_{#2}}
+\newcommand{\de}{\overset{\mathrm{def}}{=}}
