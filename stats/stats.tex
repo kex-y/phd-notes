@@ -206,6 +206,41 @@ with the linear kernel \(k(x, y) = x^\top y\) in which one minimizes
 \end{equ}
 for some regularisation parameter \(\lambda \ge 0\) (with \(\lambda = 0\) corresponding to OLS).
 
+We note the existence of a eigenfunction decomposition of the kernel \(k\) (Mercer's theorem) 
+under mild assumptions. In particular, we assume \(k\) a reproducing kernel and
+\(X \sim \mu \in \mathcal{M}(\mathcal{B}^*)\) (NB. the covariance operator \(C_\mu\) here is NOT the kernel \(k\))
+such that \(k \in L^2(\mu \otimes \mu)\). Then, for any \(e \in \mathcal{H}\) - the \RKHS{} associated to 
+\(k\), we say \(e\) is an eigenfunction of \(k\) if there exists \(\lambda \in \mathbb{R}\) such that 
+for any \(x \in \mathcal{X}\),
+\begin{equ}
+  \mathbb{E}[k(x, X)e(X)] = \lambda e(x)
+\end{equ} 
+or equivalently (by recalling the ``continuous evaluation'' property of the \RKHS{}), 
+\begin{equ}
+  \<k_x, e\>_{L^2(\mu)} = \lambda \<k_x, e\>_{\mathcal{H}}.
+\end{equ}
+Let us discuss how the above can be viewed as a bona fide eigenfunction of a operator on \(\mathcal{H}\).
+Consider the canonical embedding \(\iota : \mathcal{H} \hookrightarrow L^2(\mu)\) and its 
+adjoint \(\iota^* : L^2(\mu) \twoheadrightarrow \mathcal{H}\). For any \(h \in \mathcal{H}\), 
+we have that 
+\begin{equ}
+  \iota^* \iota (h) = (l \in \mathcal{H} \mapsto \<\iota(h), \iota(l)\>_{L^2(\mu)})
+\end{equ}
+where the right hand side is identified with an element in \(\mathcal{H}\) via the Riesz 
+representation theorem. We claim that \(e \in \mathcal{H}\) is a eigenfunction of \(k\) if and only
+it is an eigenfunction of \(\iota^* \iota\). Indeed, if 
+\(\lambda e \equiv \lambda \<e, \cdot\>_\mathcal{H} = \iota^* \iota(e)\), we have that for any \(x \in \mathcal{X}\), 
+\begin{equ}
+  \<k_x, e\>_{L^2(\mu)} = \iota^* \iota(e) k_x = \lambda \<e, k_x\>_{\mathcal{H}} = \lambda e(x)
+\end{equ}
+Conversely, if \(e\) is an eigenfunction of \(k\), 
+we have that 
+\begin{equ}
+  \iota^* \iota(e) k_x = \<e, k_x\>_{L^2(\mu)} = \lambda \<e, k_x\>_{\mathcal{H}}
+\end{equ}
+Thus, as \(\mathcal{H}\) is the linear span of \(k_x\), we have \(\iota^* \iota(e) = \lambda e\)
+as well.
+
 
 
 \bibliographystyle{alpha}
