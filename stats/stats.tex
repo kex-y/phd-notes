@@ -208,18 +208,30 @@ for some regularisation parameter \(\lambda \ge 0\) (with \(\lambda = 0\) corres
 
 We note the existence of a eigenfunction decomposition of the kernel \(k\) (Mercer's theorem) 
 under mild assumptions. In particular, we assume \(k\) a reproducing kernel and
-\(X \sim \mu \in \mathcal{M}(\mathcal{B}^*)\) (NB. the covariance operator \(C_\mu\) here is NOT the kernel \(k\))
+\(X \sim \mu \in \mathcal{M}(\mathcal{B}^*)\) (NB. the covariance of \(X\) here is NOT the kernel \(k\) 
+and in fact we do not assume \(X\) to be Gaussian)
 such that \(k \in L^2(\mu \otimes \mu)\). Then, for any \(e \in \mathcal{H}\) - the \RKHS{} associated to 
 \(k\), we say \(e\) is an eigenfunction of \(k\) if there exists \(\lambda \in \mathbb{R}\) such that 
 for any \(x \in \mathcal{X}\),
-\begin{equ}
+\begin{equ}\label{eq:eigenfunction-kernel}
   \mathbb{E}[k(x, X)e(X)] = \lambda e(x)
 \end{equ} 
 or equivalently (by recalling the ``continuous evaluation'' property of the \RKHS{}), 
 \begin{equ}
   \<k_x, e\>_{L^2(\mu)} = \lambda \<k_x, e\>_{\mathcal{H}}.
 \end{equ}
-Let us discuss how the above can be viewed as a bona fide eigenfunction of a operator on \(\mathcal{H}\).
+Then, Mercer's theorem states the following.
+\begin{theorem}[Mercer's theorem \cite{Shah:ModernStatMethods}]
+  Under the above setting with some additional mild conditions, we have the decomposition
+  \begin{equ}
+    k(x, y) = \sum_{i=1}^\infty \lambda_i e_i(x) e_i(y)
+  \end{equ}
+  for some \((e_i)_{i=1}^\infty\) an orthonormal (in \(L^2(\mu)\)) eigenbasis of \(k\) with 
+  corresponding eigenvalues \((\lambda_i)_{i=1}^\infty\) with the sum counting multiplicities.
+\end{theorem}
+
+Let us discuss how the definition via \eqref{eq:eigenfunction-kernel} can be viewed as a bona fide 
+eigenfunction of a operator on \(\mathcal{H}\).
 Consider the canonical embedding \(\iota : \mathcal{H} \hookrightarrow L^2(\mu)\) and its 
 adjoint \(\iota^* : L^2(\mu) \twoheadrightarrow \mathcal{H}\). For any \(h \in \mathcal{H}\), 
 we have that 
@@ -241,6 +253,16 @@ we have that
 Thus, as \(\mathcal{H}\) is the linear span of \(k_x\), we have \(\iota^* \iota(e) = \lambda e\)
 as well.
 
+With this in mind, Mercer's theorem can be viewed as a corollary of the spectral theorem under 
+some additional assumptions (e.g. compactness of \(\iota^* \iota\)). In particular, assuming 
+we have a orthonormal (in \(L^2(\mu)\)) eigenbasis \((e_i)_{i=1}^\infty\) of \(\iota^* \iota\) in 
+\(\mathcal{H}\), we have that for any \(x, y \in \mathcal{X}\),
+\begin{equ}
+  k(x, y) = \<k_x, \sum_{i=1}^\infty \<k_y, e_i\>_{L^2(\mu)} e_i\>_{\mathcal{H}}
+  = \sum_{i=1}^\infty \iota^*\iota(e_i)k_y \<k_x, e_i\>_{\mathcal{H}} 
+  = \sum_{i=1}^\infty \lambda_i e_i(x) e_i(y)
+\end{equ}
+as required.
 
 
 \bibliographystyle{alpha}
